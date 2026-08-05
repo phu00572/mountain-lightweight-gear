@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>山域輕量化模組裝 · 個人輕量化裝備</title>
+  <title>山域輕量化模組 · 個人輕量化裝備</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/night.css" />
@@ -51,9 +51,7 @@
     .illus-overlay .io-title { font-size:0.5em; font-weight:900; color:var(--accent2); margin-bottom:4px; }
     .illus-overlay .io-text  { font-size:0.36em; color:#e8eef4; line-height:1.6; }
     .illus-overlay .io-text b { color:var(--warn); }
-    /* 說明卡＝fade-out fragment：預設顯示，按「下一頁」淡出但不換頁（第二次才換頁）*/
-    .reveal .illus-overlay.fragment.fade-out { opacity:1 !important; visibility:visible !important; }
-    .reveal .illus-overlay.fragment.fade-out.visible { opacity:0 !important; visibility:hidden !important; }
+    /* 說明卡＝fade-up fragment：一開始不顯示，按「下一頁」由下往上滑入（同頁、不換頁），第二次才換頁 */
     .corner-badge {
       position:absolute; top:4%; left:3%;
       background:rgba(232,100,58,0.92); color:#fff; font-weight:900;
@@ -164,8 +162,8 @@
       color:var(--success); border:1px solid rgba(129,199,132,0.3); margin-left:6px; }
 
     /* iframe 頁 */
-    .iframe-wrap { width:100%; height:600px; border-radius:14px; overflow:hidden; border:1px solid rgba(79,195,247,0.35); box-shadow:0 12px 40px rgba(0,0,0,0.55); background:#fff; }
-    .iframe-wrap iframe { width:100%; height:100%; border:0; display:block; }
+    .iframe-wrap { width:100%; height:600px; border-radius:14px; overflow:hidden; border:0; box-shadow:0 12px 40px rgba(0,0,0,0.55); background:#0b1220; }
+    .iframe-wrap iframe { width:100%; height:100%; border:0; display:block; background:#0b1220; }
 
     /* 結尾 */
     .end-slide { text-align:center; }
@@ -220,8 +218,8 @@
     <section data-background-image="images/cover-photo.jpeg" data-background-size="cover" data-background-color="#0d1117" data-background-opacity="0.55">
       <div class="title-slide">
         <div class="tag">Mountain Rescue Exchange</div>
-        <h1>山域輕量化 <span style="color:var(--accent2)">模組裝</span></h1>
-        <p class="subtitle">個人輕量化裝備 — 一套模組，個人即公裝</p>
+        <h1>山域輕量化 <span style="color:var(--accent2)">模組</span></h1>
+        <p class="subtitle">個人輕量化裝備 — 一套模組，個人裝備即是公裝</p>
         <p class="author">互動教學簡報 · 左側可隨時拉開匿名提問牆 🙋</p>
       </div>
     </section>
@@ -230,7 +228,7 @@
     <section>
       <section data-background-image="images/p2-activities.jpg" data-background-size="contain" data-background-color="#0d1117">
         <div class="corner-badge">02 · 一般型戶外活動</div>
-        <div class="illus-overlay fragment fade-out" data-fragment-index="0">
+        <div class="illus-overlay fragment fade-up">
           <div class="io-title">一般型：身上沒有「技術操作」的裝備</div>
           <div class="io-text">玩水型溯溪、登山健行、越野跑 —— 這類活動的裝備以<b>保暖、防護、補給、行進</b>為主，
           <b>不需要上升／下降的繩索技術器材</b>。這是我們談輕量化的對照起點。　<span style="color:var(--accent2)">↓ 向下：破冰小投票</span></div>
@@ -253,7 +251,7 @@
     <!-- ===== 3. 技術型活動 ===== -->
     <section data-background-image="images/p3-technical.jpg" data-background-size="contain" data-background-color="#0d1117">
       <div class="corner-badge">03 · 技術型活動</div>
-      <div class="illus-overlay fragment fade-out">
+      <div class="illus-overlay fragment fade-up">
         <div class="io-title">技術型：離不開「上升與下降」</div>
         <div class="io-text">溪降下降、溯溪上攀、雪地攀登、繩索攀登 —— 扣除各活動<b>專屬的特殊器材</b>（如冰爪、冰斧）不列入考量，
         絕大多數都是圍繞著<b>繩索上的上升與下降</b>技術。</div>
@@ -263,7 +261,7 @@
     <!-- ===== 4. 繩索通過技術 ===== -->
     <section data-background-image="images/p4-rope-technique.jpg" data-background-size="contain" data-background-color="#0d1117">
       <div class="corner-badge">04 · 核心觀念</div>
-      <div class="illus-overlay fragment fade-out">
+      <div class="illus-overlay fragment fade-up">
         <div class="io-title">技術，不會離開「上升 ↔ 下降」的繩索通過</div>
         <div class="io-text">進行技術性活動時，所使用的技術<b>始終不離開上升與下降的繩索通過技術</b>。
         掌握了這條主軸，個人裝備就能收斂成一套通用模組。</div>
@@ -274,7 +272,7 @@
     <section>
       <section data-background-image="images/p5-person-gear.jpg" data-background-size="contain" data-background-color="#0d1117">
         <div class="corner-badge">05 · 提問</div>
-        <div class="illus-overlay fragment fade-out">
+        <div class="illus-overlay fragment fade-up">
           <div class="io-title">這一整套個人技術裝備 —— 你願意背幾公斤？</div>
           <div class="io-text">先憑直覺猜一個數字。<b>↓ 向下用文字雲寫下你願意背的重量</b>，再往下看實測答案。</div>
         </div>
@@ -320,7 +318,7 @@
     <!-- ===== 6. 團隊拯救技術 ===== -->
     <section data-background-image="images/p6-team-rescue.jpg" data-background-size="contain" data-background-color="#0d1117">
       <div class="corner-badge">06 · 團隊拯救技術</div>
-      <div class="illus-overlay fragment fade-out">
+      <div class="illus-overlay fragment fade-up">
         <div class="io-title">團隊拯救：擔架吊掛、橫渡、拖拉</div>
         <div class="io-text">當個人技術升級成<b>團隊救援</b>，就需要擔架、主繩、拖拉／確保系統。
         重量也跟著上來 —— <b>那麼，你願意花多少重量來背？↓</b></div>
@@ -514,7 +512,7 @@
       <div class="end-slide">
         <div class="big">🏔️</div>
         <h1 style="color:var(--accent2);">Thank You</h1>
-        <p class="lead" style="color:#dfe7ee;">一套模組、個人即公裝 —— 讓每一克都用在對的地方。</p>
+        <p class="lead" style="color:#dfe7ee;">一套模組、個人裝備即是公裝 —— 讓每一克都用在對的地方。</p>
         <p style="font-size:0.4em;color:#9fb0bd;margin-top:1em;">還有問題嗎？點左側 🙋 提問牆，匿名發問。</p>
         <button class="ui-btn" style="margin-top:1em;padding:12px 26px;" onclick="window.toggleQA(true)">🙋 打開匿名提問牆</button>
       </div>
