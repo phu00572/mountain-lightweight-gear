@@ -244,7 +244,7 @@
           <button id="ap-custom-btn" class="ui-btn" style="flex:0 0 auto;">送出 ↵</button>
         </div>
         <div id="ap-results" style="margin-top:16px; max-height:230px; overflow-y:auto;"></div>
-        <div style="font-size:0.36em;color:#7f8f9c;margin-top:8px;">目前投票人數：<span id="ap-total" style="color:var(--accent);font-weight:900;">0</span> 人</div>
+        <div style="font-size:0.36em;color:#7f8f9c;margin-top:8px;">投票人數：<span id="ap-total" style="color:var(--accent);font-weight:900;">0</span> 人　·　總票數：<span id="ap-votes" style="color:var(--accent2);font-weight:900;">0</span>　（百分比 ＝ 各活動票數 ÷ 總票數）</div>
       </section>
     </section>
 
@@ -481,7 +481,40 @@
       </div>
     </section>
 
-    <!-- ===== 13. 各式擔架 ===== -->
+    <!-- ===== Lanyard 功能（獨立頁，各式擔架之前）===== -->
+    <section data-background-color="#0f141c">
+      <h2 style="margin-bottom:0.25em;">🪢 Lanyard 功能</h2>
+      <div style="display:grid;grid-template-columns:0.95fr 1.05fr;gap:26px;align-items:center;">
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <figure style="margin:0;text-align:center;">
+            <img src="images/p12-lanyard-2.jpg" style="width:100%;max-height:225px;object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,0.14);box-shadow:0 8px 24px rgba(0,0,0,0.5);">
+            <figcaption style="font-size:0.3em;color:#9fb0bd;margin-top:5px;">雙頭配置：一端滑輪、一端 Dyneema loop＋抓結</figcaption>
+          </figure>
+          <figure style="margin:0;text-align:center;">
+            <img src="images/p12-lanyard-1.jpg" style="width:100%;max-height:200px;object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,0.14);box-shadow:0 8px 24px rgba(0,0,0,0.5);">
+            <figcaption style="font-size:0.3em;color:#9fb0bd;margin-top:5px;">工作端：滑輪＋耐熱繩摩擦抓結，可制動牽引</figcaption>
+          </figure>
+        </div>
+        <div>
+          <div style="background:rgba(232,100,58,0.12);border:1px solid rgba(232,100,58,0.4);border-left:5px solid var(--accent);border-radius:10px;padding:12px 16px;margin-bottom:12px;">
+            <div style="font-size:0.5em;font-weight:900;color:var(--accent);margin-bottom:3px;">雙頭運用法</div>
+            <div style="font-size:0.38em;color:#e8eef4;line-height:1.6;">善用 Lanyard 功能及架設 —— <b style="color:var(--warn)">Lanyard 雙頭用、主繩雙頭用</b>：同一組從兩端都能操作，切換系統不必拆裝，省時又省重。</div>
+          </div>
+          <div class="section-label" style="font-size:0.48em;margin-bottom:4px;">一組多用的功能</div>
+          <ul class="parts-list" style="margin-top:0;">
+            <li><b>定位／工作確保</b>：任一端固定，快速做站位或作業確保</li>
+            <li><b>制動牽引</b>：滑輪端＋耐熱繩摩擦抓結 → 單向滑輪省力上拉</li>
+            <li><b>延伸／固定點</b>：Dyneema loop＋O 環，連結錨點或延伸</li>
+          </ul>
+          <div class="section-label" style="font-size:0.48em;margin:8px 0 4px;">組成（一組 ≈ 1.49kg）</div>
+          <div style="font-size:0.36em;color:#c7d0d8;line-height:1.7;">
+            攀樹輔助繩 Marlow 17m（高強度耐磨本體）· 側板滾珠滑輪 Tethys Pro（效率 92%）· 耐熱繩 Ropesmith · Dyneema loop 7mm · O 環 ×3
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 各式擔架 ===== -->
     <section data-background-color="#0f141c">
       <h2 style="margin-bottom:0.3em;">🛏️ 各式擔架</h2>
       <div style="display:grid;grid-template-columns:0.8fr 1.2fr;gap:20px;align-items:center;">
@@ -707,19 +740,20 @@
   apCustom?.addEventListener('keypress',e=>{ if(e.key==='Enter') apCustomSubmit(); });
   onSnapshot(apRef, snap=>{
     const votes=(snap.data()||{}).votes||{};
-    const counts={}; let participants=0;
+    const counts={}; let participants=0, totalVotes=0;
     Object.values(votes).forEach(arr=>{
-      if(Array.isArray(arr) && arr.length){ participants++; arr.forEach(v=>counts[v]=(counts[v]||0)+1); }
+      if(Array.isArray(arr) && arr.length){ participants++; arr.forEach(v=>{ counts[v]=(counts[v]||0)+1; totalVotes++; }); }
     });
     const entries=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
     document.getElementById('ap-total').textContent=participants;
+    const apVotesEl=document.getElementById('ap-votes'); if(apVotesEl) apVotesEl.textContent=totalVotes;
     document.querySelectorAll('.ap-preset').forEach(b=>b.classList.toggle('mine', apMine.has(b.dataset.val)));
     const res=document.getElementById('ap-results');
     res.innerHTML = entries.length ? entries.map(([lab,c])=>{
-      const pct= participants? Math.round(c/participants*100):0; const mine= apMine.has(lab);
+      const pct= totalVotes? Math.round(c/totalVotes*100):0; const mine= apMine.has(lab);   // 分母＝所有人的總票數
       return `<div class="ap-bar-row ${mine?'mine':''}"><span class="lab ${mine?'mine':''}">${escapeHtml(lab)}</span>
         <span class="ap-bar-track"><span class="ap-bar-fill" style="width:${pct}%"></span></span>
-        <span class="pct">${c} 人 · ${pct}%</span></div>`;
+        <span class="pct">${c} 票 · ${pct}%</span></div>`;
     }).join('') : '<div style="color:#66757f;font-size:14px;padding:8px 0;">還沒有人投票，當第一個吧！</div>';
   });
 
