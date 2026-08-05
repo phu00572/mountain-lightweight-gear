@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>山域輕量化模組裝 · 個人輕量化裝備</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/night.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.2/src/wordcloud2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --accent:  #e8643a;
+      --accent2: #4fc3f7;
+      --success: #81c784;
+      --warn:    #ffb74d;
+      --purple:  #ce93d8;
+    }
+    .reveal { font-family: 'Noto Sans TC','Segoe UI',sans-serif; }
+    .reveal h1, .reveal h2, .reveal h3 {
+      font-family: 'Noto Sans TC','Segoe UI',sans-serif;
+      font-weight: 900; letter-spacing: -0.01em;
+    }
+    .reveal h1 { font-size: 2.1em; }
+    .reveal h2 { font-size: 1.35em; color: var(--accent2); }
+    .reveal h3 { font-size: 1.0em; }
+    .reveal .progress { color: var(--accent); }
+    .reveal section { text-align: left; }
+
+    /* === 封面 === */
+    .title-slide { text-align: center; }
+    .title-slide .tag {
+      display:inline-block; background:var(--accent); color:#fff;
+      padding:5px 18px; border-radius:20px; font-size:0.42em;
+      letter-spacing:0.12em; margin-bottom:0.7em; font-weight:700;
+    }
+    .title-slide h1 { text-shadow:0 3px 24px rgba(0,0,0,0.7); }
+    .title-slide .subtitle { font-size:0.5em; color:#dfe7ee; margin-top:0.6em; text-shadow:0 2px 12px rgba(0,0,0,0.8); }
+    .title-slide .author { margin-top:1.4em; font-size:0.38em; color:#c7d0d8; text-shadow:0 2px 10px rgba(0,0,0,0.8); }
+
+    /* === 全圖插圖頁的覆蓋教學卡 === */
+    .illus-overlay {
+      position:absolute; left:3%; right:3%; bottom:3.5%;
+      background:rgba(10,15,25,0.82); backdrop-filter:blur(4px);
+      border:1px solid rgba(79,195,247,0.35); border-left:5px solid var(--accent);
+      border-radius:12px; padding:14px 20px; box-shadow:0 8px 30px rgba(0,0,0,0.5);
+    }
+    .illus-overlay .io-title { font-size:0.5em; font-weight:900; color:var(--accent2); margin-bottom:4px; }
+    .illus-overlay .io-text  { font-size:0.36em; color:#e8eef4; line-height:1.6; }
+    .illus-overlay .io-text b { color:var(--warn); }
+    /* 說明卡＝fade-out fragment：預設顯示，按「下一頁」淡出但不換頁（第二次才換頁）*/
+    .reveal .illus-overlay.fragment.fade-out { opacity:1 !important; visibility:visible !important; }
+    .reveal .illus-overlay.fragment.fade-out.visible { opacity:0 !important; visibility:hidden !important; }
+    .corner-badge {
+      position:absolute; top:4%; left:3%;
+      background:rgba(232,100,58,0.92); color:#fff; font-weight:900;
+      font-size:0.42em; padding:6px 16px; border-radius:30px; letter-spacing:0.05em;
+      box-shadow:0 4px 16px rgba(0,0,0,0.45);
+    }
+    .down-hint {
+      position:absolute; bottom:2%; left:50%; transform:translateX(-50%);
+      font-size:0.32em; color:var(--accent2); animation:bob 1.6s infinite; text-align:center;
+    }
+    @keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0);} 50%{transform:translateX(-50%) translateY(6px);} }
+
+    /* === 原則卡 === */
+    .principle-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:0.5em; }
+    .principle-card {
+      background:rgba(255,255,255,0.06); border-top:4px solid var(--accent2);
+      border-radius:12px; padding:18px 16px; text-align:center;
+    }
+    .principle-card .pc-num {
+      display:inline-flex; width:34px; height:34px; border-radius:50%;
+      background:var(--accent); color:#fff; font-weight:900; align-items:center; justify-content:center;
+      font-size:0.9em; margin-bottom:10px;
+    }
+    .principle-card .pc-title { font-size:0.5em; font-weight:700; color:#fff; line-height:1.5; }
+    .core-grid .principle-card { border-top-color:var(--success); }
+    .core-grid .principle-card .pc-num { background:var(--success); color:#08110a; }
+    .core-grid .principle-card .pc-title { font-size:0.42em; color:#dfe7ee; }
+    .section-label { font-size:0.6em; color:var(--accent2); font-weight:900; margin:0.2em 0 0.3em; display:flex; align-items:center; gap:10px; }
+    .section-label::before { content:''; width:8px; height:26px; background:var(--accent); border-radius:3px; display:inline-block; }
+
+    /* === 系統模組頁 === */
+    .sys-wrap { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; justify-items:center;
+      max-width:1160px; margin:0 auto; width:100%; }
+    .sys-photos { display:flex; gap:14px; justify-content:center; align-items:center; width:100%; }
+    .sys-photos img { max-height:430px; max-width:47%; object-fit:contain; border-radius:12px;
+      border:1px solid rgba(255,255,255,0.14); box-shadow:0 10px 30px rgba(0,0,0,0.5); }
+    .sys-info { max-width:520px; }
+    .sys-info .chip {
+      display:inline-block; background:var(--accent); color:#fff; font-weight:900;
+      font-size:0.5em; padding:5px 16px; border-radius:20px; margin-bottom:0.4em;
+    }
+    .parts-list { list-style:none; padding:0; margin:0.4em 0 0; }
+    .parts-list li {
+      font-size:0.44em; color:#e2e8ee; padding:9px 12px; margin-bottom:8px;
+      background:rgba(255,255,255,0.05); border-left:3px solid var(--accent2); border-radius:8px;
+    }
+    .parts-list li b { color:var(--accent2); }
+
+    /* === 一般卡片 / stat === */
+    .stat-row { display:flex; gap:18px; justify-content:center; margin-top:0.7em; flex-wrap:wrap; }
+    .stat-card { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); border-radius:14px; padding:18px 24px; text-align:center; }
+    .stat-card .num { font-size:1.5em; font-weight:900; color:var(--accent); line-height:1; }
+    .stat-card .label { font-size:0.36em; color:#cfd8e0; margin-top:8px; }
+    .lead { font-size:0.5em; color:#dfe7ee; line-height:1.7; }
+    .lead b { color:var(--warn); }
+
+    /* === 互動元件通用 === */
+    .ui-input { width:100%; padding:10px 14px; border-radius:10px; border:1px solid rgba(79,195,247,0.35);
+      background:rgba(255,255,255,0.08); color:#fff; font-size:15px; box-sizing:border-box; font-family:inherit; outline:none; }
+    .ui-btn { padding:10px 16px; background:var(--accent2); color:#0d1117; border:none; border-radius:10px;
+      font-weight:900; font-size:15px; cursor:pointer; font-family:inherit; }
+    .ui-btn:disabled { opacity:0.5; cursor:default; }
+    .qhead { font-size:1.05em; font-weight:900; margin-bottom:0.3em; color:#fff; }
+    .live-badge { display:inline-block; background:#ff4757; color:#fff; padding:2px 9px; border-radius:12px;
+      font-size:0.42em; vertical-align:middle; animation:pulse 1.5s infinite; margin-left:8px; }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
+
+    /* 投票（可自訂活動）*/
+    .ap-preset { display:inline-block; margin:5px 6px 0 0; padding:9px 16px; font-size:15px; font-family:inherit;
+      background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.18); border-radius:22px;
+      color:#eaeef2; cursor:pointer; transition:all .15s; }
+    .ap-preset:hover { border-color:var(--accent2); }
+    .ap-preset.mine { background:var(--accent2); color:#0d1117; border-color:var(--accent2); font-weight:900; }
+    .ap-bar-row { display:flex; align-items:center; gap:12px; margin:7px 0; font-size:15px; }
+    .ap-bar-row .lab { flex:0 0 150px; text-align:right; color:#dbe3ea; }
+    .ap-bar-row .lab.mine { color:var(--accent2); font-weight:900; }
+    .ap-bar-track { flex:1; height:20px; background:rgba(255,255,255,0.08); border-radius:10px; overflow:hidden; }
+    .ap-bar-fill { height:100%; width:0; background:linear-gradient(90deg,var(--accent2),#2b8fc7); border-radius:10px; transition:width .5s; }
+    .ap-bar-row.mine .ap-bar-fill { background:linear-gradient(90deg,var(--accent),#c04a26); }
+    .ap-bar-row .pct { flex:0 0 78px; color:#9fb0bd; font-size:0.9em; }
+
+    /* 文字雲 */
+    .wc-grid { display:grid; grid-template-columns:260px 1fr; gap:16px; height:520px; }
+    .wc-panel { background:rgba(255,255,255,0.06); border-radius:12px; padding:16px; display:flex; flex-direction:column; }
+    .wc-canvas-wrap { background:rgba(255,255,255,0.03); border-radius:14px; overflow:hidden; position:relative; border:1px solid rgba(255,255,255,0.08); }
+    .wc-list-item { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.06); font-size:15px; color:#cdd6de; }
+    .wc-list-item b { color:var(--accent); }
+
+    /* 圖表 */
+    .chart-box { max-width:900px; height:440px; margin:0.2em auto 0; }
+
+    /* 互動裝備表 */
+    .gear-tools { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:10px; }
+    .scn-chip { padding:8px 16px; font-size:14px; font-family:inherit; border-radius:20px; cursor:pointer;
+      background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.2); color:#eaeef2; transition:all .15s; }
+    .scn-chip.on { background:var(--accent); border-color:var(--accent); color:#fff; font-weight:900; }
+    .gear-total { margin-left:auto; font-size:16px; color:#dbe3ea; }
+    .gear-total b { color:var(--warn); font-size:1.5em; font-weight:900; }
+    .gear-table-wrap { max-height:300px; overflow-y:auto; border-radius:10px; border:1px solid rgba(255,255,255,0.1); }
+    table.gear { width:100%; border-collapse:collapse; font-size:13.5px; }
+    table.gear th { position:sticky; top:0; background:#182234; color:var(--accent2); padding:8px 10px; text-align:left; font-weight:700; z-index:1; }
+    table.gear td { padding:7px 10px; border-top:1px solid rgba(255,255,255,0.07); color:#dbe3ea; vertical-align:top; }
+    table.gear tr:hover td { background:rgba(79,195,247,0.06); }
+    table.gear td.w { color:var(--warn); font-weight:700; white-space:nowrap; text-align:right; }
+    table.gear td.qty { color:#9fb0bd; text-align:center; }
+    .gear-func { font-size:0.86em; color:#94a5b3; }
+    .pill { display:inline-block; font-size:11px; padding:1px 7px; border-radius:10px; background:rgba(129,199,132,0.16);
+      color:var(--success); border:1px solid rgba(129,199,132,0.3); margin-left:6px; }
+
+    /* iframe 頁 */
+    .iframe-wrap { width:100%; height:600px; border-radius:14px; overflow:hidden; border:1px solid rgba(79,195,247,0.35); box-shadow:0 12px 40px rgba(0,0,0,0.55); background:#fff; }
+    .iframe-wrap iframe { width:100%; height:100%; border:0; display:block; }
+
+    /* 結尾 */
+    .end-slide { text-align:center; }
+    .end-slide .big { font-size:2.4em; }
+
+    /* === 全域提問牆側邊欄 === */
+    #qa-sidebar { position:fixed; top:0; left:0; height:100vh; width:340px;
+      background:linear-gradient(180deg,#141a2e,#0d1117); border-right:1px solid rgba(79,195,247,0.25);
+      box-shadow:6px 0 30px rgba(0,0,0,0.55); transform:translateX(-100%); transition:transform .35s ease; z-index:1000; }
+    @media (max-width:380px){ #qa-sidebar{ width:300px; } }
+    #qa-sidebar.open { transform:translateX(0); }
+    #qa-sidebar .qa-inner { display:flex; flex-direction:column; height:100%; padding:26px 20px; box-sizing:border-box; }
+    #qa-handle { position:absolute; right:-48px; top:50%; transform:translateY(-50%); width:48px; padding:18px 0;
+      background:var(--accent); color:#fff; border:none; border-radius:0 12px 12px 0; cursor:pointer;
+      display:flex; flex-direction:column; align-items:center; gap:8px; font-family:inherit; box-shadow:3px 0 12px rgba(0,0,0,0.4); }
+    #qa-handle .qh-dot { width:7px; height:7px; border-radius:50%; background:#fff; animation:pulse 1.5s infinite; }
+    #qa-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.45); opacity:0; pointer-events:none; transition:opacity .35s; z-index:999; }
+    #qa-overlay.show { opacity:1; pointer-events:auto; }
+    .qa-item { background:rgba(255,255,255,0.06); border-left:3px solid var(--accent); border-radius:8px;
+      padding:10px 12px; margin-bottom:8px; font-size:14px; display:flex; align-items:center; gap:10px; }
+    .qa-text { flex:1; color:#eee; line-height:1.5; text-align:left; }
+    .qa-like { flex:0 0 auto; background:rgba(232,100,58,0.15); border:1px solid rgba(232,100,58,0.4);
+      color:var(--accent); border-radius:20px; padding:4px 10px; cursor:pointer; font-size:13px; font-family:inherit; white-space:nowrap; }
+
+    /* === 響應式網頁設計（RWD）=== */
+    html, body { overflow-x:hidden; }
+    .reveal img { max-width:100%; height:auto; }
+    .gear-table-wrap { overflow-x:auto; }
+    /* 平板／手機直向：多欄版面改單欄堆疊 */
+    @media (max-width:900px) {
+      .sys-wrap { grid-template-columns:1fr; gap:18px; }
+      .sys-photos img { max-height:280px; max-width:46%; }
+      .wc-grid { grid-template-columns:1fr; height:auto; }
+      .wc-canvas-wrap { height:300px; }
+      .principle-grid { grid-template-columns:1fr; gap:10px; }
+      .stat-row { flex-direction:column; align-items:center; }
+      .gear-total { margin-left:0; }
+      .iframe-wrap { height:72vh; }
+    }
+    @media (max-width:560px) {
+      #qa-sidebar { width:86vw; max-width:340px; }
+      .ap-bar-row .lab { flex-basis:96px; }
+      .ap-bar-row .pct { flex-basis:64px; }
+    }
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- ===== 1. 封面 ===== -->
+    <section data-background-image="images/cover-photo.jpeg" data-background-size="cover" data-background-color="#0d1117" data-background-opacity="0.55">
+      <div class="title-slide">
+        <div class="tag">Mountain Rescue Exchange</div>
+        <h1>山域輕量化 <span style="color:var(--accent2)">模組裝</span></h1>
+        <p class="subtitle">個人輕量化裝備 — 一套模組，個人即公裝</p>
+        <p class="author">互動教學簡報 · 左側可隨時拉開匿名提問牆 🙋</p>
+      </div>
+    </section>
+
+    <!-- ===== 2. 一般型戶外活動（含向下：破冰投票）===== -->
+    <section>
+      <section data-background-image="images/p2-activities.jpg" data-background-size="contain" data-background-color="#0d1117">
+        <div class="corner-badge">02 · 一般型戶外活動</div>
+        <div class="illus-overlay fragment fade-out" data-fragment-index="0">
+          <div class="io-title">一般型：身上沒有「技術操作」的裝備</div>
+          <div class="io-text">玩水型溯溪、登山健行、越野跑 —— 這類活動的裝備以<b>保暖、防護、補給、行進</b>為主，
+          <b>不需要上升／下降的繩索技術器材</b>。這是我們談輕量化的對照起點。　<span style="color:var(--accent2)">↓ 向下：破冰小投票</span></div>
+        </div>
+      </section>
+      <!-- 破冰投票 -->
+      <section id="slide-actpoll">
+        <div class="qhead">🏕️ 破冰：你最常從事哪一種戶外活動？<span class="live-badge">LIVE</span></div>
+        <p style="font-size:0.4em;color:#9fb0bd;margin:0 0 0.5em;">可<b style="color:var(--warn)">複選</b>多種活動（再點一次取消）；找不到的用最後欄位自訂新增。結果即時更新。</p>
+        <div id="ap-presets" style="margin-bottom:12px;"></div>
+        <div style="display:flex; gap:10px; max-width:520px;">
+          <input id="ap-custom" class="ui-input" type="text" placeholder="其他：自訂你的活動…" maxlength="16" />
+          <button id="ap-custom-btn" class="ui-btn" style="flex:0 0 auto;">送出 ↵</button>
+        </div>
+        <div id="ap-results" style="margin-top:16px; max-height:230px; overflow-y:auto;"></div>
+        <div style="font-size:0.36em;color:#7f8f9c;margin-top:8px;">目前投票人數：<span id="ap-total" style="color:var(--accent);font-weight:900;">0</span> 人</div>
+      </section>
+    </section>
+
+    <!-- ===== 3. 技術型活動 ===== -->
+    <section data-background-image="images/p3-technical.jpg" data-background-size="contain" data-background-color="#0d1117">
+      <div class="corner-badge">03 · 技術型活動</div>
+      <div class="illus-overlay fragment fade-out">
+        <div class="io-title">技術型：離不開「上升與下降」</div>
+        <div class="io-text">溪降下降、溯溪上攀、雪地攀登、繩索攀登 —— 扣除各活動<b>專屬的特殊器材</b>（如冰爪、冰斧）不列入考量，
+        絕大多數都是圍繞著<b>繩索上的上升與下降</b>技術。</div>
+      </div>
+    </section>
+
+    <!-- ===== 4. 繩索通過技術 ===== -->
+    <section data-background-image="images/p4-rope-technique.jpg" data-background-size="contain" data-background-color="#0d1117">
+      <div class="corner-badge">04 · 核心觀念</div>
+      <div class="illus-overlay fragment fade-out">
+        <div class="io-title">技術，不會離開「上升 ↔ 下降」的繩索通過</div>
+        <div class="io-text">進行技術性活動時，所使用的技術<b>始終不離開上升與下降的繩索通過技術</b>。
+        掌握了這條主軸，個人裝備就能收斂成一套通用模組。</div>
+      </div>
+    </section>
+
+    <!-- ===== 5. 你覺得裝備要幾公斤？（向下：文字雲 + 揭曉）===== -->
+    <section>
+      <section data-background-image="images/p5-person-gear.jpg" data-background-size="contain" data-background-color="#0d1117">
+        <div class="corner-badge">05 · 提問</div>
+        <div class="illus-overlay fragment fade-out">
+          <div class="io-title">這一整套個人技術裝備 —— 你願意背幾公斤？</div>
+          <div class="io-text">先憑直覺猜一個數字。<b>↓ 向下用文字雲寫下你願意背的重量</b>，再往下看實測答案。</div>
+        </div>
+      </section>
+      <!-- 文字雲：個人 -->
+      <section id="slide-wc-person">
+        <div class="qhead">⚖️ 個人裝備，你願意背幾公斤？<span class="live-badge">LIVE</span></div>
+        <div class="wc-grid">
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="wc-panel" style="flex:0 0 auto;">
+              <div style="font-size:14px;color:var(--accent2);font-weight:700;margin-bottom:8px;">輸入你的答案（例：2.5kg）</div>
+              <input id="wcp-input" class="ui-input" type="text" placeholder="輸入重量或想法…" maxlength="14" />
+              <button id="wcp-btn" class="ui-btn" style="width:100%;margin-top:8px;">送出 ↵</button>
+            </div>
+            <div class="wc-panel" style="flex:1;overflow:hidden;">
+              <div style="font-size:14px;color:var(--accent2);font-weight:700;margin-bottom:8px;">熱門答案</div>
+              <div id="wcp-list" style="overflow-y:auto;flex:1;"></div>
+              <div style="margin-top:8px;font-size:12px;color:#7f8f9c;border-top:1px solid rgba(255,255,255,0.08);padding-top:6px;">
+                總提交 <b style="color:var(--accent)" id="wcp-total">0</b>　不同答案 <b style="color:var(--accent2)" id="wcp-unique">0</b></div>
+            </div>
+          </div>
+          <div class="wc-canvas-wrap">
+            <canvas id="wcp-canvas" style="width:100%;height:100%;display:block;"></canvas>
+            <div id="wcp-empty" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#556;font-size:18px;text-align:center;pointer-events:none;line-height:2;">輸入第一個答案<br>文字雲就會出現 ✨</div>
+          </div>
+        </div>
+      </section>
+      <!-- 揭曉：個人裝備實際重量 -->
+      <section data-background-color="#0d1117">
+        <div class="qhead">✅ 揭曉：一套個人模組，其實只有 2.4 – 3.2 公斤</div>
+        <p class="lead" style="margin:0 0 0.4em;">同一套輕量化模組，依情境微調，全套（<b>未計入公裝主繩</b>）落在：</p>
+        <div class="stat-row">
+          <div class="stat-card"><div class="num">2.43<span style="font-size:0.5em">kg</span></div><div class="label">溯溪 / 搜救A</div></div>
+          <div class="stat-card"><div class="num">2.57<span style="font-size:0.5em">kg</span></div><div class="label">搜救 R</div></div>
+          <div class="stat-card"><div class="num">2.60<span style="font-size:0.5em">kg</span></div><div class="label">搜救 L</div></div>
+          <div class="stat-card"><div class="num">2.54<span style="font-size:0.5em">kg</span></div><div class="label">溪降</div></div>
+          <div class="stat-card" style="border-color:rgba(255,183,77,0.4)"><div class="num" style="color:var(--warn)">3.23<span style="font-size:0.5em">kg</span></div><div class="label">雪地（含冰爪冰斧）</div></div>
+        </div>
+        <p class="lead" style="text-align:center;margin-top:0.9em;font-size:0.42em;color:#9fb0bd;">第 11 頁有完整互動明細，可依情境切換。</p>
+      </section>
+    </section>
+
+    <!-- ===== 6. 團隊拯救技術 ===== -->
+    <section data-background-image="images/p6-team-rescue.jpg" data-background-size="contain" data-background-color="#0d1117">
+      <div class="corner-badge">06 · 團隊拯救技術</div>
+      <div class="illus-overlay fragment fade-out">
+        <div class="io-title">團隊拯救：擔架吊掛、橫渡、拖拉</div>
+        <div class="io-text">當個人技術升級成<b>團隊救援</b>，就需要擔架、主繩、拖拉／確保系統。
+        重量也跟著上來 —— <b>那麼，你願意花多少重量來背？↓</b></div>
+      </div>
+    </section>
+
+    <!-- ===== 7. 團隊拖拉裝備要幾公斤（向下：文字雲 + 揭曉）===== -->
+    <section>
+      <section data-background-color="#0d1117">
+        <div style="text-align:center;">
+          <div class="qhead" style="font-size:1.6em;">🏔️ 團隊拖拉救援裝備<br>你願意花多少重量來背？</div>
+          <p class="lead" style="margin-top:0.6em;color:#9fb0bd;">先猜一個公斤數，<b>↓ 向下用文字雲寫下</b>，再看實際的公裝重量。</p>
+        </div>
+      </section>
+      <!-- 文字雲：團隊 -->
+      <section id="slide-wc-team">
+        <div class="qhead">⚖️ 團隊拖拉裝備，你願意背幾公斤？<span class="live-badge">LIVE</span></div>
+        <div class="wc-grid">
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="wc-panel" style="flex:0 0 auto;">
+              <div style="font-size:14px;color:var(--accent2);font-weight:700;margin-bottom:8px;">輸入你的答案（例：15kg）</div>
+              <input id="wct-input" class="ui-input" type="text" placeholder="輸入重量或想法…" maxlength="14" />
+              <button id="wct-btn" class="ui-btn" style="width:100%;margin-top:8px;">送出 ↵</button>
+            </div>
+            <div class="wc-panel" style="flex:1;overflow:hidden;">
+              <div style="font-size:14px;color:var(--accent2);font-weight:700;margin-bottom:8px;">熱門答案</div>
+              <div id="wct-list" style="overflow-y:auto;flex:1;"></div>
+              <div style="margin-top:8px;font-size:12px;color:#7f8f9c;border-top:1px solid rgba(255,255,255,0.08);padding-top:6px;">
+                總提交 <b style="color:var(--accent)" id="wct-total">0</b>　不同答案 <b style="color:var(--accent2)" id="wct-unique">0</b></div>
+            </div>
+          </div>
+          <div class="wc-canvas-wrap">
+            <canvas id="wct-canvas" style="width:100%;height:100%;display:block;"></canvas>
+            <div id="wct-empty" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#556;font-size:18px;text-align:center;pointer-events:none;line-height:2;">輸入第一個答案<br>文字雲就會出現 ✨</div>
+          </div>
+        </div>
+      </section>
+      <!-- 揭曉：公裝重量 -->
+      <section data-background-color="#0d1117">
+        <div class="qhead">✅ 揭曉：整組公裝（山域搜救）約 22.3 公斤 · 全隊分攤</div>
+        <div class="stat-row" style="margin-top:1em;">
+          <div class="stat-card" style="min-width:220px;"><div class="num">22.3<span style="font-size:0.5em">kg</span></div><div class="label">山域搜救 整組公裝合計</div></div>
+        </div>
+        <p class="lead" style="text-align:center;margin-top:0.9em;font-size:0.44em;color:#9fb0bd;">含主繩 ×4、擔架、Lanyard／GRILLON 組與護繩 —— 第 12 頁有完整清單與功能。</p>
+      </section>
+    </section>
+
+    <!-- ===== 8. 輕量化原則 ===== -->
+    <section data-background-color="#0f141c">
+      <h2 style="margin-bottom:0.3em;">🍃 輕量化的原則</h2>
+      <div class="principle-grid">
+        <div class="principle-card"><div class="pc-num">1</div><div class="pc-title">不帶不必要裝備</div></div>
+        <div class="principle-card"><div class="pc-num">2</div><div class="pc-title">一物多用</div></div>
+        <div class="principle-card"><div class="pc-num">3</div><div class="pc-title">同功能項目<br>選擇輕的</div></div>
+      </div>
+      <div class="section-label" style="margin-top:0.7em;">個人輕量化裝備的核心觀念</div>
+      <div class="principle-grid core-grid">
+        <div class="principle-card"><div class="pc-num">1</div><div class="pc-title">個人上升下降 ＝ 拖拉系統上拉下放<br><span style="color:#9fb0bd;font-size:0.85em;">（教育上需要學新復舊）</span></div></div>
+        <div class="principle-card"><div class="pc-num">2</div><div class="pc-title">一套模組化輕量裝備<br>既是個人裝備，也是公裝</div></div>
+        <div class="principle-card"><div class="pc-num">3</div><div class="pc-title">相同配置、語言及默契<br><span style="color:#9fb0bd;font-size:0.85em;">（右個人、左救援）</span></div></div>
+      </div>
+    </section>
+
+    <!-- ===== 9. 拖拉模組一 ATC-P ===== -->
+    <section data-background-color="#0f141c">
+      <div class="sys-wrap">
+        <div class="sys-photos">
+          <img src="images/p9-atcp-1.jpeg" alt="ATC-P 系統照片1">
+          <img src="images/p9-atcp-2.jpeg" alt="ATC-P 系統照片2">
+        </div>
+        <div class="sys-info">
+          <span class="chip">拖拉系統模組 ①</span>
+          <h2 style="margin:0.1em 0 0.2em;">ATC-P 運用</h2>
+          <p class="lead" style="font-size:0.44em;color:#9fb0bd;margin:0 0 0.4em;">由個人模組裝備即可組成的第一種拖拉系統。</p>
+          <ul class="parts-list">
+            <li><b>ATC</b> 確保／下降器</li>
+            <li><b>高效率勾環滑輪</b></li>
+            <li><b>耐熱繩</b>（摩擦抓結 A bloc）</li>
+            <li><b>夾繩器</b>（B bloc）</li>
+            <li><b>Sling</b> 組合（固定點／延伸）</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 10. 拖拉模組二 RPM ===== -->
+    <section data-background-color="#0f141c">
+      <div class="sys-wrap">
+        <div class="sys-photos">
+          <img src="images/p10-rpm-1.jpeg" alt="RPM 系統照片1">
+          <img src="images/p10-rpm-2.jpeg" alt="RPM 系統照片2">
+        </div>
+        <div class="sys-info">
+          <span class="chip" style="background:var(--accent2);color:#0d1117;">拖拉系統模組 ②</span>
+          <h2 style="margin:0.1em 0 0.2em;">RPM 運用</h2>
+          <p class="lead" style="font-size:0.44em;color:#9fb0bd;margin:0 0 0.4em;">第二種組裝方式，核心改用 OKA 下降器與分立盤。</p>
+          <ul class="parts-list">
+            <li><b>OKA</b> 下降器（變形 8 字）</li>
+            <li><b>高效率滑輪</b>（省力）</li>
+            <li><b>耐熱繩</b>（摩擦抓結）</li>
+            <li><b>夾繩器</b>（進程抓放）</li>
+            <li><b>分立盤</b>（多向分力）</li>
+            <li><b>Sling</b> 組合（固定點／延伸）</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 11. 個人裝備核心一覽表（向下：滑輪拖拉省力比網頁）===== -->
+    <section>
+      <section data-background-color="#0f141c" id="slide-gear11">
+        <h2 style="margin-bottom:0.25em;">🎒 個人裝備核心一覽表</h2>
+        <div class="gear-tools">
+          <span style="font-size:14px;color:#9fb0bd;">情境：</span>
+          <button class="scn-chip on" data-scn="-1">全部</button>
+          <button class="scn-chip" data-scn="0">溯溪/搜救A</button>
+          <button class="scn-chip" data-scn="1">搜救 R</button>
+          <button class="scn-chip" data-scn="2">搜救 L</button>
+          <button class="scn-chip" data-scn="3">溪降</button>
+          <button class="scn-chip" data-scn="4">雪地</button>
+          <span class="gear-total">全套重量：<b id="gear-total-val">—</b> g</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1.35fr 1fr;gap:18px;align-items:start;">
+          <div class="gear-table-wrap">
+            <table class="gear">
+              <thead><tr><th>品牌 / 名稱</th><th style="width:52px;text-align:center;">數量</th><th style="width:70px;text-align:right;">重量</th></tr></thead>
+              <tbody id="gear-tbody"></tbody>
+            </table>
+          </div>
+          <div>
+            <div style="font-size:14px;color:var(--accent2);font-weight:700;margin-bottom:4px;">五情境全套重量（g，未計主繩）</div>
+            <div class="chart-box" style="height:300px;margin:0;"><canvas id="chart11"></canvas></div>
+          </div>
+        </div>
+        <div class="down-hint">↓ 向下：滑輪拖拉省力比 互動計算器</div>
+      </section>
+      <!-- 嵌入滑輪拖拉省力比網頁 -->
+      <section data-background-color="#0d1117" id="slide-pulley">
+        <div class="qhead">🛞 滑輪拖拉省力比 · 互動計算器</div>
+        <p style="font-size:0.36em;color:#9fb0bd;margin:0 0 0.5em;">拖拉系統的省力，來自滑輪組的機械利益。下方為講師自製的互動網頁，可直接操作。</p>
+        <div class="iframe-wrap">
+          <iframe src="https://phu00572.github.io/Pulley-tension/" title="滑輪拖拉省力比" loading="lazy" referrerpolicy="no-referrer"></iframe>
+        </div>
+        <p style="font-size:0.32em;color:#66757f;margin-top:6px;text-align:right;">來源：phu00572.github.io/Pulley-tension</p>
+      </section>
+    </section>
+
+    <!-- ===== 12. 團體裝備清單與功能 ===== -->
+    <section data-background-color="#0f141c" id="slide-gear12">
+      <h2 style="margin-bottom:0.2em;">👥 團體裝備清單與功能 <span style="font-size:0.5em;color:var(--warn);">· 山域搜救（合計 ≈ 22.3kg）</span></h2>
+      <div style="background:rgba(232,100,58,0.1);border:1px solid rgba(232,100,58,0.35);border-radius:10px;padding:10px 16px;margin-bottom:10px;">
+        <span style="font-size:0.44em;color:var(--accent);font-weight:900;">Lanyard 功能：</span>
+        <span style="font-size:0.4em;color:#e2e8ee;">善用 Lanyard 功能及架設 —— <b style="color:var(--warn)">Lanyard 雙頭運用法</b>：Lanyard 雙頭用、主繩雙頭用，一組多用。</span>
+      </div>
+      <div class="gear-table-wrap" style="max-height:400px;">
+        <table class="gear">
+          <thead><tr><th style="width:110px;">分類</th><th>裝備 / 名稱</th><th style="width:80px;text-align:right;">組重</th><th>功能</th></tr></thead>
+          <tbody id="grp-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== 13. 各式擔架 ===== -->
+    <section data-background-color="#0f141c">
+      <h2 style="margin-bottom:0.3em;">🛏️ 各式擔架</h2>
+      <div style="display:grid;grid-template-columns:0.8fr 1.2fr;gap:20px;align-items:center;">
+        <div>
+          <div style="background:rgba(79,195,247,0.1);border-left:4px solid var(--accent2);border-radius:8px;padding:12px 16px;margin-bottom:12px;">
+            <div style="font-size:0.46em;font-weight:900;color:var(--accent2);">1️⃣ 單繩系統</div>
+            <div style="font-size:0.38em;color:#dbe3ea;margin-top:3px;">工作距離 <b style="color:var(--warn)">200M</b>（2×50M＋1×100M），需過繩結技術。</div>
+          </div>
+          <div style="background:rgba(129,199,132,0.1);border-left:4px solid var(--success);border-radius:8px;padding:12px 16px;margin-bottom:12px;">
+            <div style="font-size:0.46em;font-weight:900;color:var(--success);">2️⃣ 雙繩系統</div>
+            <div style="font-size:0.38em;color:#dbe3ea;margin-top:3px;">工作距離 <b style="color:var(--warn)">100M</b>（2×50M 與 1×100M），需過繩結技術。</div>
+          </div>
+          <div style="background:rgba(255,183,77,0.1);border-left:4px solid var(--warn);border-radius:8px;padding:12px 16px;">
+            <div style="font-size:0.46em;font-weight:900;color:var(--warn);">3️⃣ 擔架要求</div>
+            <div style="font-size:0.38em;color:#dbe3ea;margin-top:3px;">重量輕、攜帶佳、支撐好、有腳帶、可姿態轉換。</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:center;align-items:flex-end;">
+          <figure style="margin:0;text-align:center;flex:1;"><img src="images/p13-stretch-4.jpeg" style="max-height:330px;max-width:100%;object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,0.14);box-shadow:0 8px 24px rgba(0,0,0,0.5);"><figcaption style="font-size:0.32em;color:#9fb0bd;margin-top:6px;">SKED · 8.4kg</figcaption></figure>
+          <figure style="margin:0;text-align:center;flex:1;"><img src="images/p13-stretch-2.jpeg" style="max-height:330px;max-width:100%;object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,0.14);box-shadow:0 8px 24px rgba(0,0,0,0.5);"><figcaption style="font-size:0.32em;color:#9fb0bd;margin-top:6px;">SLIX · 9.5kg</figcaption></figure>
+          <figure style="margin:0;text-align:center;flex:1;"><img src="images/p13-stretch-3.jpeg" style="max-height:330px;max-width:100%;object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,0.14);box-shadow:0 8px 24px rgba(0,0,0,0.5);"><figcaption style="font-size:0.32em;color:#9fb0bd;margin-top:6px;">RollUP · 8.4kg</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 15. Thank You ===== -->
+    <section data-background-image="images/cover-photo.jpeg" data-background-size="cover" data-background-opacity="0.4" data-background-color="#0d1117">
+      <div class="end-slide">
+        <div class="big">🏔️</div>
+        <h1 style="color:var(--accent2);">Thank You</h1>
+        <p class="lead" style="color:#dfe7ee;">一套模組、個人即公裝 —— 讓每一克都用在對的地方。</p>
+        <p style="font-size:0.4em;color:#9fb0bd;margin-top:1em;">還有問題嗎？點左側 🙋 提問牆，匿名發問。</p>
+        <button class="ui-btn" style="margin-top:1em;padding:12px 26px;" onclick="window.toggleQA(true)">🙋 打開匿名提問牆</button>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- ===== 全域提問牆側邊欄 ===== -->
+<div id="qa-overlay"></div>
+<aside id="qa-sidebar" data-prevent-swipe>
+  <button id="qa-handle" aria-label="開關提問牆">
+    <span style="font-size:19px;">🙋</span>
+    <span style="writing-mode:vertical-rl;letter-spacing:3px;font-weight:900;font-size:14px;">提問牆</span>
+    <span class="qh-dot"></span>
+  </button>
+  <div class="qa-inner">
+    <div style="font-size:19px;font-weight:900;color:var(--accent2);margin-bottom:16px;">🙋 匿名提問牆 <span class="live-badge">LIVE</span></div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+      <input id="qa-input" class="ui-input" type="text" placeholder="輸入問題，按 Enter…" maxlength="80" />
+      <button id="qa-btn" class="ui-btn">送出提問</button>
+    </div>
+    <div id="qa-list" style="flex:1;overflow-y:auto;padding-right:4px;"></div>
+  </div>
+</aside>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    width: 1280, height: 720, margin: 0.04,
+    minScale: 0.2, maxScale: 1.6,
+    hash: true, transition: 'slide', backgroundTransition: 'fade',
+    center: true, progress: true, controls: true, slideNumber: 'c/t', plugins: []
+  });
+</script>
+
+<!-- ===== 裝備資料 + 互動表格 + Chart.js（一般 script）===== -->
+<script>
+  // 情境索引：0 溯溪/搜救A, 1 搜救R, 2 搜救L, 3 溪降, 4 雪地
+  const SCN_NAMES = ['溯溪/搜救A','搜救R','搜救L','溪降','雪地'];
+  const SCN_TOTALS = [2434, 2574, 2601, 2538, 3231]; // g，未計公裝主繩（來源：裝備分析.xlsx）
+  // c = 各情境數量；w = 單件重量(g)
+  const GEAR = [
+    {b:'PETZL',n:'SIROCCO 超輕量岩盔',w:170,c:[1,1,1,1,1],f:'避免頭部碰撞或落石'},
+    {b:'singingrock',n:'RAY 靜態繩齒輪環',w:385,c:[0,0,0,1,0],f:'4 齒輪環，承重 5kg'},
+    {b:'PETZL',n:'Open ring',w:70,c:[0,0,0,1,0],f:'開放連結環'},
+    {b:'PETZL',n:'極輕吊帶 SITTA M',w:285,c:[1,1,1,0,1],f:'4 工具環，可調腰腿圍'},
+    {b:'Kong',n:'手套 Alex 露三指',w:63,c:[0,0,0,0,0],f:'輕量透氣護手'},
+    {b:'3M',n:'手套 MS100',w:20,c:[1,1,1,1,0],f:'輕薄護手'},
+    {b:'CAMP',n:'TURBOCHEST 胸式上升器',w:110,c:[1,1,1,1,0],f:'上升器＋鎖定滑輪輕載牽引'},
+    {b:'Climbing Tech',n:'Rollnlock',w:80,c:[1,1,1,1,1],f:'上升器／制動滑輪／單滑輪（效率85%）'},
+    {b:'PETZL',n:'Micro Traxion 單向滑輪',w:85,c:[1,1,1,1,1],f:'可解除制停當一般滑輪（效率91%）'},
+    {b:'CAMP',n:'Tethys Pro 側板滾珠滑輪',w:90,c:[1,1,1,0,1],f:'搭抓結作單向滑輪（效率92%）'},
+    {b:'FLXE',n:'MIKU V2 確保器',w:82,c:[1,0,1,0,1],f:'制動確保器'},
+    {b:'PETZL',n:'GRIGRI +',w:200,c:[0,1,0,0,0],f:'取代 ATC 下降器'},
+    {b:'KONG',n:'OKA 下降器',w:95,c:[1,1,1,0,0],f:'變形 8 字下降器'},
+    {b:'Climbing Tech',n:'八字環',w:94,c:[0,0,0,2,0],f:'溪降下降'},
+    {b:'Grivel',n:'Roller Small 滑輪鉤環',w:73,c:[1,0,1,0,0],f:'滑輪鉤環'},
+    {b:'Petzl',n:'ROLLCLIP Z',w:105,c:[0,0,0,0,1],f:'滑輪鉤環（效率85%）'},
+    {b:'Black Diamond',n:'LITEWIRE 小鉤環',w:23,c:[0,0,0,4,0],f:'長軸24kN'},
+    {b:'PETZL',n:'O 型鉤環 HMS',w:70,c:[8,8,8,6,4],f:'固定點／確保／連結（主軸25kN）'},
+    {b:'PETZL',n:'ATTACHE 鉤環',w:58,c:[5,6,5,7,2],f:'固定點／義大利半扣／確保'},
+    {b:'PETZL',n:'PAW 分力盤 4 孔',w:60,c:[0,1,0,0,0],f:'分力盤（斷裂36kN）'},
+    {b:'TEBYLON',n:'HALF 輕量化撤退環',w:23,c:[1,0,1,1,0],f:'取代分力盤（26kN）'},
+    {b:'Beal',n:'Sling 120cm',w:35,c:[2,2,2,3,2],f:'固定點／延伸／胸帶（22kN）'},
+    {b:'BlueWater',n:'Sling 15cm',w:14,c:[0,0,0,2,0],f:'短延伸（27kN）'},
+    {b:'Ropesmith',n:'耐熱繩 8mm/80cm',w:50,c:[1,1,1,0,1],f:'摩擦抓結（VT 結）'},
+    {b:'康迪亞',n:'普魯士腳踏繩 6mm/2m',w:54,c:[0,0,0,0,0],f:'延伸／胸腳繩'},
+    {b:'Teufelberger',n:'Tech Cord 高強度輔助繩（腳繩）',w:28.25,c:[1,1,1,1,0],f:'取代腳繩（20kN）'},
+    {b:'Beal',n:'短繩圈 Jammy 35cm',w:20,c:[1,1,1,1,0],f:'延伸／autoblock'},
+    {b:'Beal',n:'短繩圈 Jammy 50cm',w:25,c:[0,0,0,1,0],f:'延伸／autoblock'},
+    {b:'xmonster',n:'耐熱繩 8mm/70cm',w:45,c:[1,1,1,1,0],f:'摩擦抓結／延伸'},
+    {b:'康迪亞',n:'管式扁帶 6m',w:252,c:[0,0,1,0,0],f:'固定點／簡易吊帶／腳蹬'},
+    {b:'Teufelberger',n:'Tech Cord 高強度輔助繩（扁帶）',w:84.75,c:[1,1,0,0,0],f:'取代扁帶（20kN）'},
+    {b:'EDELRID',n:'熊爪割繩刀',w:110,c:[0,0,0,1,0],f:'切割繩索織帶'},
+    {b:'PETZL',n:'摺疊割繩刀',w:43,c:[1,1,1,0,1],f:'切割繩索織帶'},
+    {b:'DIY',n:'自製動力確保長短繩',w:127.6,c:[0,0,0,1,0],f:'動力確保'},
+    {b:'metolius',n:'PAS 自我確保繩',w:130,c:[1,1,1,0,1],f:'自我確保鍊（浮水、快乾）'},
+    {b:'PETZL',n:'Connect Adjust 2',w:120,c:[0,0,0,0,0],f:'可調長度自我確保繩'},
+    {b:'GRIVEL',n:'RAMBO 4 技術冰爪',w:1170,c:[0,0,0,0,1],f:'雪地專屬技術裝備'},
+    {b:'GRIVEL',n:'G1 雪地健行冰斧',w:475,c:[0,0,0,0,1],f:'雪地專屬技術裝備'},
+  ];
+
+  let curScn = -1;
+  const tbody = document.getElementById('gear-tbody');
+  const totalVal = document.getElementById('gear-total-val');
+  function fmt(g){ return g % 1 === 0 ? g : g.toFixed(2); }
+  function renderGear(){
+    let rows = '', total = 0;
+    GEAR.forEach(it=>{
+      const qty = curScn === -1 ? it.d ?? 1 : it.c[curScn];
+      if (curScn !== -1 && qty === 0) return;      // 該情境沒用到就不顯示
+      const q = curScn === -1 ? 1 : qty;
+      const sub = it.w * q;
+      total += sub;
+      const funcPill = curScn===-1 && it.c.every(x=>x===0) ? '<span class="pill" style="background:rgba(255,183,77,0.14);color:var(--warn);border-color:rgba(255,183,77,0.3)">替代選項</span>' : '';
+      rows += `<tr><td><b style="color:#fff">${it.n}</b>${funcPill}<div class="gear-func">${it.b}　·　${it.f}</div></td>
+        <td class="qty">${curScn===-1?'—':'×'+q}</td>
+        <td class="w">${fmt(sub)} g</td></tr>`;
+    });
+    tbody.innerHTML = rows;
+    // 全部情境時顯示裝備總覽（單件×1 之和無意義），改顯示切換提示；有情境時用官方總重
+    totalVal.textContent = curScn === -1 ? '選情境試算' : fmt(SCN_TOTALS[curScn]);
+  }
+  document.querySelectorAll('.scn-chip').forEach(chip=>{
+    chip.addEventListener('click',()=>{
+      document.querySelectorAll('.scn-chip').forEach(c=>c.classList.remove('on'));
+      chip.classList.add('on');
+      curScn = parseInt(chip.dataset.scn,10);
+      renderGear();
+    });
+  });
+  renderGear();
+
+  // ---- 團裝表 ----
+  // 團體裝備 — 僅山域搜救類別（合計 ≈ 22.3kg）
+  const GRP = [
+    {cat:'靜力繩',n:'TENDON Military 9mm（50m × 2）',w:'5.0kg',f:'山域搜救主繩（23kN）'},
+    {cat:'靜力繩',n:'KMIII 9.5mm（50m × 2）',w:'6.0kg',f:'山域搜救主繩（28kN）'},
+    {cat:'Lanyard 一組',n:'攀樹輔助繩＋滾珠滑輪＋耐熱繩＋Dyneema loop＋O 環 ×3',w:'1.49kg',f:'雙頭運用、一組多用'},
+    {cat:'GRILLON 一組',n:'Patron 9mm＋GRIGRI＋O 環 ×3＋elf friction',w:'1.11kg',f:'定位／工作確保'},
+    {cat:'擔架',n:'RollUP（含吊掛帶、腳帶、軟墊）',w:'8.4kg',f:'包覆、垂直水平吊掛、負載600kg'},
+    {cat:'護繩',n:'FLEX 岩角保護墊（一對）',w:'0.13kg',f:'岩角護繩'},
+    {cat:'護繩',n:'護繩套 50cm × 2',w:'0.16kg',f:'保護繩子'},
+  ];
+  document.getElementById('grp-tbody').innerHTML = GRP.map(g=>
+    `<tr><td><span class="pill" style="background:rgba(79,195,247,0.14);color:var(--accent2);border-color:rgba(79,195,247,0.3);margin:0;">${g.cat}</span></td>
+     <td><b style="color:#fff">${g.n}</b></td><td class="w">${g.w}</td><td class="gear-func">${g.f}</td></tr>`
+  ).join('');
+
+  // ---- Chart.js ----
+  let c11=false;
+  function initChart11(){
+    if(c11||typeof Chart==='undefined')return; const el=document.getElementById('chart11'); if(!el)return; c11=true;
+    new Chart(el,{type:'bar',data:{labels:SCN_NAMES,datasets:[{label:'全套重量 (g)',data:SCN_TOTALS,
+      backgroundColor:['#4fc3f7','#81c784','#ce93d8','#80deea','#ffb74d'],borderRadius:8}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:c=>c.parsed.y+' g ( '+(c.parsed.y/1000).toFixed(2)+' kg )'}}},
+        scales:{y:{ticks:{color:'#9fb0bd'},grid:{color:'rgba(255,255,255,0.08)'}},x:{ticks:{color:'#dbe3ea',font:{size:11}},grid:{display:false}}}}});
+  }
+  Reveal.on('slidechanged', e=>{
+    if(e.currentSlide?.id==='slide-gear11') setTimeout(initChart11,150);
+  });
+  // 若一載入就停在該頁
+  Reveal.on('ready', e=>{
+    if(e.currentSlide?.id==='slide-gear11') setTimeout(initChart11,200);
+  });
+</script>
+
+<!-- ===== Firebase 即時互動（單一 module，共用 fdb / SLUG）===== -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js';
+  import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp,
+    query, orderBy, doc, setDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBPaIDGb3RaYhxYrXVE_6YndLUi2jLv1R4",
+    authDomain: "html-slide-db.firebaseapp.com",
+    projectId: "html-slide-db",
+    storageBucket: "html-slide-db.firebasestorage.app",
+    messagingSenderId: "1045858073731",
+    appId: "1:1045858073731:web:8d70945fa081f49929afb6"
+  };
+  const app = initializeApp(firebaseConfig);
+  const fdb = getFirestore(app);
+  const SLUG = 'mtn_lightgear_2026';   // 獨立命名空間，與 sar_search 等其他簡報互不干擾
+  const COLORS = ['#4fc3f7','#e8643a','#ffb74d','#81c784','#ce93d8','#80deea','#f48fb1'];
+  const userId = 'u_' + Math.random().toString(36).slice(2,9);
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  /* ---------- 破冰投票（可自訂活動）---------- */
+  const AP_PRESETS = ['玩水型溯溪','登山健行','越野跑','溪降','攀岩/抱石','繩索技術 SRT','露營','雪地攀登','山域搜救'];
+  const apRef = doc(fdb, SLUG + '_actpoll', 'results');
+  const apMine = new Set();                 // 本人選取的活動（可複選）
+  const apBox = document.getElementById('ap-presets');
+  AP_PRESETS.forEach(label=>{
+    const b=document.createElement('button'); b.className='ap-preset'; b.textContent=label;
+    b.dataset.val=label; b.onclick=()=>apToggle(label); apBox.appendChild(b);
+  });
+  async function apWrite(){
+    try{ await setDoc(apRef,{updated_at:serverTimestamp(), votes:{[userId]:[...apMine]}},{merge:true}); }
+    catch(e){ console.error('poll write failed:', e); }
+  }
+  function apToggle(val){
+    val=(val||'').trim(); if(!val) return;
+    if(apMine.has(val)) apMine.delete(val); else apMine.add(val);
+    apWrite();
+  }
+  const apCustom=document.getElementById('ap-custom'), apCustomBtn=document.getElementById('ap-custom-btn');
+  const apCustomSubmit=()=>{ const v=apCustom.value.trim(); if(!v)return; apMine.add(v); apWrite(); apCustom.value=''; };
+  apCustomBtn?.addEventListener('click',apCustomSubmit);
+  apCustom?.addEventListener('keypress',e=>{ if(e.key==='Enter') apCustomSubmit(); });
+  onSnapshot(apRef, snap=>{
+    const votes=(snap.data()||{}).votes||{};
+    const counts={}; let participants=0;
+    Object.values(votes).forEach(arr=>{
+      if(Array.isArray(arr) && arr.length){ participants++; arr.forEach(v=>counts[v]=(counts[v]||0)+1); }
+    });
+    const entries=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+    document.getElementById('ap-total').textContent=participants;
+    document.querySelectorAll('.ap-preset').forEach(b=>b.classList.toggle('mine', apMine.has(b.dataset.val)));
+    const res=document.getElementById('ap-results');
+    res.innerHTML = entries.length ? entries.map(([lab,c])=>{
+      const pct= participants? Math.round(c/participants*100):0; const mine= apMine.has(lab);
+      return `<div class="ap-bar-row ${mine?'mine':''}"><span class="lab ${mine?'mine':''}">${escapeHtml(lab)}</span>
+        <span class="ap-bar-track"><span class="ap-bar-fill" style="width:${pct}%"></span></span>
+        <span class="pct">${c} 人 · ${pct}%</span></div>`;
+    }).join('') : '<div style="color:#66757f;font-size:14px;padding:8px 0;">還沒有人投票，當第一個吧！</div>';
+  });
+
+  /* ---------- 文字雲工廠（兩個獨立文字雲）---------- */
+  const WC_DRAW = {};
+  function initWordcloud(o){
+    const ref=collection(fdb, SLUG+'_'+o.coll); let data=[];
+    const input=document.getElementById(o.i), btn=document.getElementById(o.b);
+    const submit=async()=>{ const w=(input.value||'').trim(); if(!w)return; btn.disabled=true;
+      try{ await addDoc(ref,{word:w,created_at:serverTimestamp()}); input.value=''; }catch(e){console.error(e);}finally{btn.disabled=false;} };
+    input?.addEventListener('keypress',e=>{ if(e.key==='Enter') submit(); });
+    btn?.addEventListener('click',submit);
+    function draw(){
+      const cv=document.getElementById(o.cv); if(!cv||typeof WordCloud==='undefined')return;
+      const r=cv.getBoundingClientRect(); if(r.width<10||r.height<10)return;
+      cv.width=r.width; cv.height=r.height; if(data.length===0)return;
+      const max=data[0][1];
+      WordCloud(cv,{ list:data.map(([w,c])=>[w,Math.max(16,Math.round((c/max)*70))]),
+        gridSize:6, weightFactor:1, fontFamily:'"Noto Sans TC",sans-serif',
+        color:()=>COLORS[Math.floor(Math.random()*COLORS.length)], backgroundColor:'transparent', rotateRatio:0.25, shuffle:true });
+    }
+    WC_DRAW[o.coll]=draw;
+    onSnapshot(query(ref,orderBy('created_at','asc')), snap=>{
+      const words=[]; snap.forEach(d=>words.push(d.data().word));
+      const counts={}; words.forEach(w=>counts[w]=(counts[w]||0)+1);
+      data=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+      document.getElementById(o.t).textContent=words.length;
+      document.getElementById(o.u).textContent=data.length;
+      document.getElementById(o.l).innerHTML= data.slice(0,12).map(([w,c])=>
+        `<div class="wc-list-item"><span>${escapeHtml(w)}</span><b>${c}</b></div>`).join('') || '<div style="color:#556;font-size:14px;padding:6px 0;">尚無資料</div>';
+      const emp=document.getElementById(o.e); if(emp) emp.style.display= data.length>0?'none':'';
+      draw();
+    });
+  }
+  initWordcloud({coll:'wcperson', i:'wcp-input', b:'wcp-btn', l:'wcp-list', cv:'wcp-canvas', e:'wcp-empty', t:'wcp-total', u:'wcp-unique'});
+  initWordcloud({coll:'wcteam',   i:'wct-input', b:'wct-btn', l:'wct-list', cv:'wct-canvas', e:'wct-empty', t:'wct-total', u:'wct-unique'});
+
+  /* ---------- 匿名提問牆（全域側邊欄）---------- */
+  const qaRef=collection(fdb, SLUG+'_qa');
+  window.qaSubmit=async function(){
+    const input=document.getElementById('qa-input'); const text=(input.value||'').trim(); if(!text)return;
+    const btn=document.getElementById('qa-btn'); btn.disabled=true;
+    try{ await addDoc(qaRef,{text,likes:0,created_at:serverTimestamp()}); input.value=''; }catch(e){console.error(e);}finally{btn.disabled=false;}
+  };
+  window.qaLike=async function(id,cur){ try{ await updateDoc(doc(fdb,SLUG+'_qa',id),{likes:(cur||0)+1}); }catch(e){console.error(e);} };
+  document.getElementById('qa-input')?.addEventListener('keypress',e=>{ if(e.key==='Enter') window.qaSubmit(); });
+  document.getElementById('qa-btn')?.addEventListener('click',window.qaSubmit);
+  onSnapshot(query(qaRef,orderBy('created_at','desc')), snap=>{
+    const items=[]; snap.forEach(d=>items.push({id:d.id,...d.data()}));
+    items.sort((a,b)=>(b.likes||0)-(a.likes||0));
+    const list=document.getElementById('qa-list');
+    list.innerHTML= items.length? items.map(q=>
+      `<div class="qa-item"><span class="qa-text">${escapeHtml(q.text)}</span>
+       <button class="qa-like" onclick="qaLike('${q.id}',${q.likes||0})">👍 ${q.likes||0}</button></div>`
+    ).join('') : '<div style="color:#556;text-align:center;padding:20px;font-size:14px;">還沒有問題，當第一個發問的人 🙋</div>';
+  });
+  // 側邊欄開關
+  const qaSidebar=document.getElementById('qa-sidebar'), qaOverlay=document.getElementById('qa-overlay');
+  window.toggleQA=function(force){
+    const open=(force!==undefined)?force:!qaSidebar.classList.contains('open');
+    qaSidebar.classList.toggle('open',open); qaOverlay.classList.toggle('show',open);
+    if(open) setTimeout(()=>document.getElementById('qa-input')?.focus(),300);
+  };
+  document.getElementById('qa-handle')?.addEventListener('click',()=>window.toggleQA());
+  qaOverlay?.addEventListener('click',()=>window.toggleQA(false));
+
+  /* ---------- 切頁重繪文字雲 ---------- */
+  Reveal.on('slidechanged', e=>{
+    const id=e.currentSlide?.id;
+    if(id==='slide-wc-person') setTimeout(()=>WC_DRAW.wcperson&&WC_DRAW.wcperson(),160);
+    if(id==='slide-wc-team')   setTimeout(()=>WC_DRAW.wcteam&&WC_DRAW.wcteam(),160);
+  });
+
+  /* ---------- 手機防誤觸換頁 ---------- */
+  document.querySelectorAll('[data-prevent-swipe]').forEach(el=>{
+    ['touchstart','touchmove','touchend'].forEach(ev=>el.addEventListener(ev,e=>e.stopPropagation(),{passive:false}));
+  });
+</script>
+</body>
+</html>
