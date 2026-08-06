@@ -427,9 +427,9 @@
         <div class="gear-tools">
           <span style="font-size:14px;color:#9fb0bd;">情境：</span>
           <button class="scn-chip on" data-scn="-1">全部</button>
-          <button class="scn-chip" data-scn="0">溯溪/搜救A</button>
-          <button class="scn-chip" data-scn="1">搜救 R</button>
-          <button class="scn-chip" data-scn="2">搜救 L</button>
+          <button class="scn-chip" data-scn="0">搜救-Attendant</button>
+          <button class="scn-chip" data-scn="1">搜救-Rigger</button>
+          <button class="scn-chip" data-scn="2">搜救-Leader</button>
           <button class="scn-chip" data-scn="3">溪降</button>
           <button class="scn-chip" data-scn="4">雪地</button>
           <span class="gear-total">全套重量：<b id="gear-total-val">—</b> g</span>
@@ -578,8 +578,8 @@
 
 <!-- ===== 裝備資料 + 互動表格 + Chart.js（一般 script）===== -->
 <script>
-  // 情境索引：0 溯溪/搜救A, 1 搜救R, 2 搜救L, 3 溪降, 4 雪地
-  const SCN_NAMES = ['溯溪/搜救A','搜救R','搜救L','溪降','雪地'];
+  // 情境索引：0 搜救-Attendant, 1 搜救-Rigger, 2 搜救-Leader, 3 溪降, 4 雪地
+  const SCN_NAMES = ['搜救-Attendant','搜救-Rigger','搜救-Leader','溪降','雪地'];
   const SCN_TOTALS = [2434, 2574, 2601, 2538, 3231]; // g，未計公裝主繩（來源：裝備分析.xlsx）
   // c = 各情境數量；w = 單件重量(g)
   const GEAR = [
