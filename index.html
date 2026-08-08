@@ -690,6 +690,7 @@
   import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp,
     query, orderBy, doc, setDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js';
   import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js';
+  import { initializeAppCheck, ReCaptchaV3Provider } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app-check.js';
 
   const firebaseConfig = {
     apiKey: "AIzaSyBPaIDGb3RaYhxYrXVE_6YndLUi2jLv1R4",
@@ -700,6 +701,7 @@
     appId: "1:1045858073731:web:8d70945fa081f49929afb6"
   };
   const app = initializeApp(firebaseConfig);
+  initializeAppCheck(app, { provider: new ReCaptchaV3Provider('6LevoHstAAAAALRLwnA0DSLiXAK8wER_LEM-eP9b'), isTokenAutoRefreshEnabled: true });
   const fdb = getFirestore(app);
   const auth = getAuth(app);
   try { await signInAnonymously(auth); } catch(e){ console.error('匿名登入失敗', e); }
