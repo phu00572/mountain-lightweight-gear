@@ -34,5 +34,16 @@
 - 有 ↓ 提示的頁面按下鍵看互動／滑輪計算器
 - 左側 🙋 把手可隨時拉開匿名提問牆
 
+## 課後重置互動資料
+在網址後面加上 `?admin=1` 開啟講師模式，例如：
+
+```
+https://phu00572.github.io/mountain-lightweight-gear/?admin=1
+```
+
+右下角會出現「🗑 重置本場資料」按鈕，按下並確認即可清空本場的個人／團隊文字雲、破冰投票與提問牆（下一場從乾淨狀態開始）。學員用一般網址看不到此按鈕。
+
+> 註：本簡報的 Firebase 已開啟 App Check 強制執行，早期的 `clear_data.py`（純 REST 清理、無 App Check token）已無法使用，改用上述網頁內重置。
+
 ## 技術
-Reveal.js 5.1 · Chart.js 4.4 · wordcloud2 · Firebase 11 — 純前端、無需後端伺服器。
+Reveal.js 5.1 · Chart.js 4.4 · wordcloud2 · Firebase 11（匿名登入 + App Check reCAPTCHA v3）— 純前端、無需後端伺服器。

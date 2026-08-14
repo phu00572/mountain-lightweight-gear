@@ -688,7 +688,7 @@
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js';
   import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp,
-    query, orderBy, doc, setDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js';
+    query, orderBy, doc, setDoc, updateDoc, getDocs, deleteDoc } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js';
   import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js';
   import { initializeAppCheck, ReCaptchaV3Provider } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app-check.js';
 
@@ -820,6 +820,42 @@
     if(id==='slide-wc-person') setTimeout(()=>WC_DRAW.wcperson&&WC_DRAW.wcperson(),160);
     if(id==='slide-wc-team')   setTimeout(()=>WC_DRAW.wcteam&&WC_DRAW.wcteam(),160);
   });
+
+  /* ---------- 網頁內重置（取代 clear_data.py）----------
+     App Check 強制執行後，clear_data.py 用純 REST + API key、無 App Check token 會被 403 擋。
+     改由頁面內、已通過 App Check + 匿名登入的 SDK 直接刪資料。
+     只有講師在網址加 ?admin=1 時才會出現重置鈕；學員看不到。 */
+  const RESET_COLLECTIONS = ['wcperson','wcteam','qa'];   // 個人/團隊文字雲、提問牆
+  window.resetDeck = async function(){
+    if(!confirm('確定清空本場所有互動資料？\n（個人／團隊文字雲、破冰投票、提問牆）\n此動作無法復原。')) return;
+    const btn=document.getElementById('reset-btn');
+    if(btn){ btn.disabled=true; btn.textContent='清除中…'; }
+    let total=0, ok=true;
+    try{
+      for(const c of RESET_COLLECTIONS){
+        const snap=await getDocs(collection(fdb, SLUG+'_'+c));
+        await Promise.all(snap.docs.map(d=>deleteDoc(d.ref)));
+        total+=snap.size;
+      }
+      try{ await deleteDoc(doc(fdb, SLUG+'_actpoll','results')); }catch(_){}   // 重置破冰投票
+    }catch(e){ ok=false; console.error('重置失敗（App Check / 網路 / 權限）：', e); }
+    if(btn){
+      btn.textContent = ok ? ('✅ 已清空 '+total+' 筆') : '❌ 失敗，見 console';
+      btn.disabled=false;
+      setTimeout(()=>{ btn.textContent='🗑 重置本場資料'; }, 2600);
+    }
+    return ok;
+  };
+  // 只有 ?admin=1（或 ?admin）時顯示重置鈕
+  if(new URLSearchParams(location.search).has('admin')){
+    const b=document.createElement('button');
+    b.id='reset-btn'; b.textContent='🗑 重置本場資料';
+    b.style.cssText='position:fixed;right:16px;bottom:16px;z-index:1200;padding:11px 16px;'+
+      'background:rgba(255,71,87,0.92);color:#fff;border:none;border-radius:24px;font-weight:900;'+
+      'font-size:14px;font-family:"Noto Sans TC",sans-serif;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.5);';
+    b.onclick=window.resetDeck;
+    document.body.appendChild(b);
+  }
 
   /* ---------- 手機防誤觸換頁 ---------- */
   document.querySelectorAll('[data-prevent-swipe]').forEach(el=>{
