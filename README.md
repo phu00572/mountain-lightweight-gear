@@ -35,10 +35,10 @@
 - 左側 🙋 把手可隨時拉開匿名提問牆
 
 ## 課後重置互動資料
-在網址後面加上 `?admin=1` 開啟講師模式，例如：
+在網址後面加上 `?reset=1` 開啟講師模式，例如：
 
 ```
-https://phu00572.github.io/mountain-lightweight-gear/?admin=1
+https://phu00572.github.io/mountain-lightweight-gear/?reset=1
 ```
 
 右下角會出現「🗑 重置本場資料」按鈕，按下並確認即可清空本場的個人／團隊文字雲、破冰投票與提問牆（下一場從乾淨狀態開始）。學員用一般網址看不到此按鈕。

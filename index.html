@@ -824,7 +824,7 @@
   /* ---------- 網頁內重置（取代 clear_data.py）----------
      App Check 強制執行後，clear_data.py 用純 REST + API key、無 App Check token 會被 403 擋。
      改由頁面內、已通過 App Check + 匿名登入的 SDK 直接刪資料。
-     只有講師在網址加 ?admin=1 時才會出現重置鈕；學員看不到。 */
+     只有講師在網址加 ?reset=1 時才會出現重置鈕；學員看不到。 */
   const RESET_COLLECTIONS = ['wcperson','wcteam','qa'];   // 個人/團隊文字雲、提問牆
   window.resetDeck = async function(){
     if(!confirm('確定清空本場所有互動資料？\n（個人／團隊文字雲、破冰投票、提問牆）\n此動作無法復原。')) return;
@@ -846,8 +846,8 @@
     }
     return ok;
   };
-  // 只有 ?admin=1（或 ?admin）時顯示重置鈕
-  if(new URLSearchParams(location.search).has('admin')){
+  // 只有 ?reset=1（或 ?reset）時顯示重置鈕
+  if(new URLSearchParams(location.search).has('reset')){
     const b=document.createElement('button');
     b.id='reset-btn'; b.textContent='🗑 重置本場資料';
     b.style.cssText='position:fixed;right:16px;bottom:16px;z-index:1200;padding:11px 16px;'+
