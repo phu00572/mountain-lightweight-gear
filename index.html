@@ -188,26 +188,49 @@
     .qa-like { flex:0 0 auto; background:rgba(232,100,58,0.15); border:1px solid rgba(232,100,58,0.4);
       color:var(--accent); border-radius:20px; padding:4px 10px; cursor:pointer; font-size:13px; font-family:inherit; white-space:nowrap; }
 
-    /* === 響應式網頁設計（RWD）=== */
+    /* === 響應式（依 html-slide-builder skill：手機翻頁＋頁內捲動、窄版單欄）=== */
     html, body { overflow-x:hidden; }
     .reveal img { max-width:100%; height:auto; }
     .gear-table-wrap { overflow-x:auto; }
-    /* 平板／手機直向：多欄版面改單欄堆疊 */
-    @media (max-width:900px) {
-      .sys-wrap { grid-template-columns:1fr; gap:18px; }
-      .sys-photos img { max-height:280px; max-width:46%; }
-      .wc-grid { grid-template-columns:1fr; height:auto; }
-      .wc-canvas-wrap { height:300px; }
-      .principle-grid { grid-template-columns:1fr; gap:10px; }
-      .stat-row { flex-direction:column; align-items:center; }
-      .gear-total { margin-left:0; }
-      .iframe-wrap { height:72vh; }
+
+    /* 單頁內容過長 → 頁內上下捲動；內容短則置中 */
+    body.mobile .reveal .slides > section.present,
+    body.mobile .reveal .slides > section.past,
+    body.mobile .reveal .slides > section.future{
+      height:100%; box-sizing:border-box;
+      display:flex; flex-direction:column; justify-content:safe center;
+      overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch;
+      padding:14px 12px 64px; scrollbar-width:none;
     }
-    @media (max-width:560px) {
-      #qa-sidebar { width:86vw; max-width:340px; }
-      .ap-bar-row .lab { flex-basis:96px; }
-      .ap-bar-row .pct { flex-basis:64px; }
-    }
+    body.mobile .reveal .slides > section::-webkit-scrollbar{ display:none; }
+    /* 換頁箭頭放大（手機主要靠它換頁）*/
+    body.mobile .reveal .controls{ right:10px; bottom:10px; }
+    body.mobile .reveal .controls .controls-arrow{ width:52px; height:52px; }
+
+    /* 多欄版面 → 手機單欄 */
+    body.mobile .sys-wrap,
+    body.mobile .wc-grid,
+    body.mobile .principle-grid,
+    body.mobile .two-col{ grid-template-columns:1fr !important; gap:14px; height:auto; }
+    body.mobile .wc-canvas-wrap{ height:300px; }
+    body.mobile .sys-photos img{ max-height:230px; max-width:48%; }
+    body.mobile .stat-row{ flex-direction:column; align-items:center; }
+    body.mobile .gear-total{ margin-left:0; }
+    body.mobile .iframe-wrap{ height:78vh; }
+    /* 情境 chips 手機兩欄好按 */
+    body.mobile .gear-tools{ gap:6px; }
+    body.mobile .scn-chip{ flex:1 1 40%; text-align:center; }
+    /* 投票長條標籤在窄版縮短 */
+    body.mobile .ap-bar-row .lab{ flex-basis:92px; }
+    body.mobile .ap-bar-row .pct{ flex-basis:62px; }
+    /* 文字雲輸入框字級≥16px 防 iOS 縮放 */
+    body.mobile .ui-input{ font-size:16px; }
+
+    /* 全域提問牆把手：手機改左下角浮動圓鈕，避免遮住頁面正中央 */
+    body.mobile #qa-handle{ top:auto; bottom:16px; right:-48px; transform:none;
+      width:48px; height:48px; padding:0; border-radius:50%; justify-content:center; align-items:center; }
+    body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ display:none; }
+    @media (max-width:380px){ #qa-sidebar{ width:86vw; } }
   </style>
 </head>
 <body>
@@ -429,7 +452,7 @@
           <button class="scn-chip" data-scn="4">雪地</button>
           <span class="gear-total">全套重量：<b id="gear-total-val">—</b> g</span>
         </div>
-        <div style="display:grid;grid-template-columns:1.35fr 1fr;gap:18px;align-items:start;">
+        <div class="two-col" style="display:grid;grid-template-columns:1.35fr 1fr;gap:18px;align-items:start;">
           <div class="gear-table-wrap">
             <table class="gear">
               <thead><tr><th>品牌 / 名稱</th><th style="width:52px;text-align:center;">數量</th><th style="width:70px;text-align:right;">重量</th></tr></thead>
@@ -472,7 +495,7 @@
     <!-- ===== Lanyard 功能（獨立頁，各式擔架之前）===== -->
     <section data-background-image="images/bg-rope.jpg" data-background-size="cover" data-background-opacity="0.15" data-background-color="#0f141c">
       <h2 style="margin-bottom:0.25em;">🪢 Lanyard 功能</h2>
-      <div style="display:grid;grid-template-columns:0.95fr 1.05fr;gap:26px;align-items:center;">
+      <div class="two-col" style="display:grid;grid-template-columns:0.95fr 1.05fr;gap:26px;align-items:center;">
         <div style="display:flex;flex-direction:column;gap:12px;">
           <figure style="margin:0;text-align:center;">
             <img src="images/p12-lanyard-2.jpg" style="width:100%;max-height:225px;object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,0.14);box-shadow:0 8px 24px rgba(0,0,0,0.5);">
@@ -506,7 +529,7 @@
     <!-- ===== 各式擔架 ===== -->
     <section data-background-image="images/bg-rescue.jpg" data-background-size="cover" data-background-opacity="0.18" data-background-color="#0f141c">
       <h2 style="margin-bottom:0.3em;">🛏️ 各式擔架</h2>
-      <div style="display:grid;grid-template-columns:0.8fr 1.2fr;gap:20px;align-items:center;">
+      <div class="two-col" style="display:grid;grid-template-columns:0.8fr 1.2fr;gap:20px;align-items:center;">
         <div>
           <div style="background:rgba(79,195,247,0.1);border-left:4px solid var(--accent2);border-radius:8px;padding:12px 16px;margin-bottom:12px;">
             <div style="font-size:0.46em;font-weight:900;color:var(--accent2);">1️⃣ 單繩系統</div>
@@ -563,12 +586,44 @@
 
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
 <script>
+  // === 響應式：手機直式＝標準翻頁＋頁內捲動、窄版單欄；手機橫式/平板/桌機＝寬版多欄 ===
+  function deckSize(){
+    const portrait = window.matchMedia('(orientation: portrait)').matches;
+    const w = window.innerWidth, h = window.innerHeight;
+    if(portrait && w < 760){
+      const vh = Math.max(860, Math.round(460 * h / Math.max(1, w)));  // 單頁高度貼合手機螢幕比例
+      return { width:460, height:vh, margin:0.01, mobile:true, center:false, touch:false };
+    }
+    return { width:1280, height:760, margin:0.04, mobile:false, center:true, touch:true };
+  }
+  function redrawCurrent(){
+    const id = Reveal.getCurrentSlide && Reveal.getCurrentSlide()?.id;
+    if(id==='slide-wc-person') window.WC_DRAW && window.WC_DRAW.wcperson && window.WC_DRAW.wcperson();
+    if(id==='slide-wc-team')   window.WC_DRAW && window.WC_DRAW.wcteam && window.WC_DRAW.wcteam();
+    if(id==='slide-gear11')    window.initChart11 && window.initChart11();
+  }
+  function applyResponsive(){
+    const n = deckSize();
+    document.body.classList.toggle('mobile', n.mobile);
+    Reveal.configure({ width:n.width, height:n.height, margin:n.margin, center:n.center, touch:n.touch });
+    Reveal.layout();
+    setTimeout(redrawCurrent, 250);
+  }
+  const ds = deckSize();
+  document.body.classList.toggle('mobile', ds.mobile);
   Reveal.initialize({
-    width: 1280, height: 720, margin: 0.04,
-    minScale: 0.2, maxScale: 1.6,
-    hash: true, transition: 'slide', backgroundTransition: 'fade',
-    center: true, progress: true, controls: true, slideNumber: 'c/t', plugins: []
+    hash:true, transition:'slide', backgroundTransition:'fade',
+    center:ds.center, touch:ds.touch, progress:true, controls:true, slideNumber:'c/t',
+    width:ds.width, height:ds.height, margin:ds.margin,
+    minScale:0.2, maxScale:1.6,
+    view:null, scrollActivationWidth:null,   // 一律標準翻頁（不用 Reveal 連續捲動檢視）
+    plugins:[]
   });
+  Reveal.on('ready', applyResponsive);
+  window.addEventListener('load', applyResponsive);
+  let _rzT; window.addEventListener('resize', ()=>{ clearTimeout(_rzT); _rzT=setTimeout(applyResponsive,180); });
+  window.addEventListener('orientationchange', ()=>setTimeout(applyResponsive,250));
+  Reveal.on('slidechanged', e=>{ if(e.currentSlide) e.currentSlide.scrollTop=0; });   // 換頁後回到頁頂
 </script>
 
 <!-- ===== 裝備資料 + 互動表格 + Chart.js（一般 script）===== -->
@@ -784,6 +839,7 @@
   }
   initWordcloud({coll:'wcperson', i:'wcp-input', b:'wcp-btn', l:'wcp-list', cv:'wcp-canvas', e:'wcp-empty', t:'wcp-total', u:'wcp-unique'});
   initWordcloud({coll:'wcteam',   i:'wct-input', b:'wct-btn', l:'wct-list', cv:'wct-canvas', e:'wct-empty', t:'wct-total', u:'wct-unique'});
+  window.WC_DRAW = WC_DRAW;   // 供 applyResponsive() 於切換版面後重繪文字雲
 
   /* ---------- 匿名提問牆（全域側邊欄）---------- */
   const qaRef=collection(fdb, SLUG+'_qa');
