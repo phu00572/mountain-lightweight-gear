@@ -100,6 +100,30 @@
     }
     .parts-list li b { color:var(--accent2); }
 
+    /* === 原則卡（重新編排：號碼＋標題＋白話解說）=== */
+    .prin-row { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:0.3em; }
+    .prin2 { background:rgba(255,255,255,0.06); border-radius:14px; padding:16px 18px; border-top:4px solid var(--accent); }
+    .prin2.core { border-top-color:var(--success); }
+    .prin2 .pn { display:inline-flex; width:40px; height:40px; border-radius:50%; background:var(--accent); color:#fff;
+      font-weight:900; font-size:21px; align-items:center; justify-content:center; margin-bottom:9px; }
+    .prin2.core .pn { background:var(--success); color:#08110a; }
+    .prin2 .pt { font-size:25px; font-weight:900; color:#fff; line-height:1.25; margin-bottom:7px; }
+    .prin2 .pd { font-size:18px; color:#cfd8e0; line-height:1.5; }
+
+    /* === 系統模組頁（重新編排：大圖＋元件卡）=== */
+    .sys-sub { font-size:20px; color:#9fb0bd; margin:2px 0 14px; }
+    .sys2 { display:grid; grid-template-columns:0.85fr 1.15fr; gap:26px; align-items:center; }
+    .sys2-photos { display:flex; gap:12px; justify-content:center; }
+    .sys2-photos img { max-height:440px; max-width:48%; object-fit:contain; border-radius:12px;
+      border:1px solid rgba(255,255,255,0.14); box-shadow:0 10px 30px rgba(0,0,0,0.5); }
+    .comp-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .comp { background:rgba(255,255,255,0.06); border-left:4px solid var(--accent2); border-radius:10px; padding:12px 16px; }
+    .comp.b2 { border-left-color:var(--accent); }
+    .comp .cn { display:block; font-size:23px; font-weight:900; color:#fff; line-height:1.2; }
+    .comp .cr { display:block; font-size:16px; color:#9fb0bd; margin-top:4px; }
+    body.mobile .prin-row, body.mobile .sys2, body.mobile .comp-grid { grid-template-columns:1fr !important; }
+    body.mobile .sys2-photos img { max-height:230px; }
+
     /* === 一般卡片 / stat === */
     .stat-row { display:flex; gap:18px; justify-content:center; margin-top:0.7em; flex-wrap:wrap; }
     .stat-card { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); border-radius:14px; padding:18px 24px; text-align:center; }
@@ -253,15 +277,7 @@
       </div>
     </section>
 
-    <!-- ===== 2. 一般型戶外活動 ===== -->
-    <section data-background-image="images/p2-activities.jpg" data-background-size="contain" data-background-color="#0d1117">
-        <div class="illus-overlay fragment fade-up">
-          <div class="io-title">一般型：身上沒有「技術操作」的裝備</div>
-          <div class="io-text">玩水型溯溪、登山健行、越野跑 —— 這類活動的裝備以<b>保暖、防護、補給、行進</b>為主，
-          <b>不需要上升／下降的繩索技術器材</b>。這是我們談輕量化的對照起點。　<span style="color:var(--accent2)">→ 下一頁：破冰投票</span></div>
-        </div>
-      </section>
-      <!-- 破冰投票 -->
+    <!-- ===== 2. 破冰投票 ===== -->
       <section data-background-image="images/bg-interact.jpg" data-background-size="cover" data-background-opacity="0.2" data-background-color="#0d1117" id="slide-actpoll">
         <p class="poll-q">🏕️ 你最常從事哪一種戶外活動？<span class="live-badge">LIVE</span></p>
         <p style="font-size:19px;color:#9fb0bd;margin:0 0 2px;">點選你最常從事的活動（<b style="color:var(--warn)">一人一票、可改選</b>）；或在最後欄位自訂新增。</p>
@@ -274,7 +290,16 @@
         <div class="poll-meta">投票人數：<span id="ap-total" style="color:var(--accent);font-weight:900;">0</span> 人（一人一票）<span id="ap-votes" style="display:none;">0</span>　·　百分比 ＝ 各票數 ÷ 總票數</div>
     </section>
 
-    <!-- ===== 3. 技術型活動 ===== -->
+    <!-- ===== 3. 一般型戶外活動 ===== -->
+    <section data-background-image="images/p2-activities.jpg" data-background-size="contain" data-background-color="#0d1117">
+        <div class="illus-overlay fragment fade-up">
+          <div class="io-title">一般型：身上沒有「技術操作」的裝備</div>
+          <div class="io-text">玩水型溯溪、登山健行、越野跑 —— 這類活動的裝備以<b>保暖、防護、補給、行進</b>為主，
+          <b>不需要上升／下降的繩索技術器材</b>。這是我們談輕量化的對照起點。</div>
+        </div>
+      </section>
+
+    <!-- ===== 4. 技術型活動 ===== -->
     <section data-background-image="images/p3-technical.jpg" data-background-size="contain" data-background-color="#0d1117">
       <div class="illus-overlay fragment fade-up">
         <div class="io-title">技術型：離不開「上升與下降」</div>
@@ -326,7 +351,7 @@
       <section data-background-image="images/bg-mountain.jpg" data-background-size="cover" data-background-opacity="0.35" data-background-color="#0d1117">
         <div style="text-align:center;">
           <div class="qhead" style="font-size:1.4em;">✅ 揭曉</div>
-          <p class="lead" style="font-size:0.6em;margin-top:0.5em;line-height:1.7;">一套個人模組，<b style="color:var(--accent2)">有效率地實施上升下降</b><br>其實只有 <span style="color:var(--accent);font-weight:900;font-size:1.7em;">1.1 ~ 1.2</span> 公斤</p>
+          <p class="lead" style="font-size:0.84em;margin-top:0.5em;line-height:1.7;">一套個人模組，<b style="color:var(--accent2)">有效率地實施上升下降</b><br>其實只有 <span style="color:var(--accent);font-weight:900;font-size:1.7em;">1.1 ~ 1.2</span> 公斤</p>
         </div>
     </section>
 
@@ -343,7 +368,8 @@
     <section data-background-image="images/bg-mountain.jpg" data-background-size="cover" data-background-opacity="0.4" data-background-color="#0d1117">
         <div style="text-align:center;">
           <div class="qhead" style="font-size:1.6em;">🏔️ 團隊拖拉救援裝備<br>你願意花多少重量來背？</div>
-          <p class="lead" style="margin-top:0.6em;color:#9fb0bd;">先猜一個公斤數，<b>→ 下一頁用文字雲寫下</b>，再看實際的公裝重量。</p>
+          <p style="font-size:0.56em;color:var(--warn);margin-top:0.35em;font-weight:700;">（不包含主繩及特定活動的指定裝備）</p>
+          <p class="lead" style="margin-top:0.45em;color:#9fb0bd;">先猜一個公斤數，<b>→ 下一頁用文字雲寫下</b>，再看實際的公裝重量。</p>
         </div>
       </section>
       <!-- 文字雲：團隊 -->
@@ -373,67 +399,63 @@
       <section data-background-image="images/bg-mountain.jpg" data-background-size="cover" data-background-opacity="0.35" data-background-color="#0d1117">
         <div style="text-align:center;">
           <div class="qhead" style="font-size:1.4em;">✅ 揭曉</div>
-          <p class="lead" style="font-size:0.6em;margin-top:0.5em;line-height:1.7;">整組<b style="color:var(--accent2)">個裝即是公裝</b>（山域搜救）<br>約 <span style="color:var(--accent);font-weight:900;font-size:1.7em;">2.1 ~ 2.2</span> 公斤</p>
+          <p class="lead" style="font-size:0.84em;margin-top:0.5em;line-height:1.7;">整組<b style="color:var(--accent2)">個裝即是公裝</b>（山域搜救）<br>約 <span style="color:var(--accent);font-weight:900;font-size:1.7em;">2.1 ~ 2.2</span> 公斤</p>
         </div>
     </section>
 
     <!-- ===== 8. 輕量化原則 ===== -->
     <section data-background-image="images/bg-principle.jpg" data-background-size="cover" data-background-opacity="0.55" data-background-color="#0f141c">
-      <h2 style="margin-bottom:0.3em;">🍃 輕量化的原則</h2>
-      <div class="principle-grid">
-        <div class="principle-card"><div class="pc-num">1</div><div class="pc-title">不帶不必要裝備</div></div>
-        <div class="principle-card"><div class="pc-num">2</div><div class="pc-title">一物多用</div></div>
-        <div class="principle-card"><div class="pc-num">3</div><div class="pc-title">同功能項目<br>選擇輕的</div></div>
+      <h2 style="margin-bottom:0.1em;">🍃 輕量化的三原則</h2>
+      <div class="prin-row">
+        <div class="prin2"><div class="pn">1</div><div class="pt">不帶不必要裝備</div><div class="pd">只帶這趟真正會用到的；能不帶就不帶。</div></div>
+        <div class="prin2"><div class="pn">2</div><div class="pt">一物多用</div><div class="pd">一件裝備兼多種用途，減少件數與重量。</div></div>
+        <div class="prin2"><div class="pn">3</div><div class="pt">同功能選最輕</div><div class="pd">功能相同時，挑重量最輕的那一個。</div></div>
       </div>
-      <div class="section-label" style="margin-top:0.7em;">個人輕量化裝備的核心觀念</div>
-      <div class="principle-grid core-grid">
-        <div class="principle-card"><div class="pc-num">1</div><div class="pc-title">個人上升下降 ＝ 拖拉系統上拉下放<br><span style="color:#9fb0bd;font-size:0.85em;">（教育上需要學新復舊）</span></div></div>
-        <div class="principle-card"><div class="pc-num">2</div><div class="pc-title">一套模組化輕量裝備<br>既是個人裝備，也是公裝</div></div>
-        <div class="principle-card"><div class="pc-num">3</div><div class="pc-title">相同配置、語言及默契<br><span style="color:#9fb0bd;font-size:0.85em;">（右個人、左救援）</span></div></div>
+      <div class="section-label" style="margin:0.5em 0 0.1em;font-size:0.6em;">個人輕量化裝備的三個核心觀念</div>
+      <div class="prin-row">
+        <div class="prin2 core"><div class="pn">A</div><div class="pt">個人上升下降 ＝ 拖拉系統</div><div class="pd">同一套技術，個人上拉下放就是團隊拖拉的縮小版（學新也復舊）。</div></div>
+        <div class="prin2 core"><div class="pn">B</div><div class="pt">個人裝備即是公裝</div><div class="pd">一套模組化輕量裝備，既當個人裝備、也能湊成團體公裝。</div></div>
+        <div class="prin2 core"><div class="pn">C</div><div class="pt">相同配置與默契</div><div class="pd">全隊相同配置、相同語言；右手個人、左手救援。</div></div>
       </div>
     </section>
 
     <!-- ===== 9. 拖拉模組一 ATC-P ===== -->
     <section data-background-image="images/bg-rope.jpg" data-background-size="cover" data-background-opacity="0.15" data-background-color="#0f141c">
-      <div class="sys-wrap">
-        <div class="sys-photos">
+      <span class="chip">拖拉系統模組 ①</span>
+      <h2 style="margin:0.1em 0 0;">ATC-P 運用</h2>
+      <p class="sys-sub">由個人模組裝備即可組成的第一種拖拉系統</p>
+      <div class="sys2">
+        <div class="sys2-photos">
           <img src="images/p9-atcp-1.jpeg" alt="ATC-P 系統照片1">
           <img src="images/p9-atcp-2.jpeg" alt="ATC-P 系統照片2">
         </div>
-        <div class="sys-info">
-          <span class="chip">拖拉系統模組 ①</span>
-          <h2 style="margin:0.1em 0 0.2em;">ATC-P 運用</h2>
-          <p class="lead" style="font-size:0.44em;color:#9fb0bd;margin:0 0 0.4em;">由個人模組裝備即可組成的第一種拖拉系統。</p>
-          <ul class="parts-list">
-            <li><b>ATC</b> 確保／下降器</li>
-            <li><b>高效率勾環滑輪</b></li>
-            <li><b>耐熱繩</b>（摩擦抓結 A bloc）</li>
-            <li><b>夾繩器</b>（B bloc）</li>
-            <li><b>Sling</b> 組合（固定點／延伸）</li>
-          </ul>
+        <div class="comp-grid">
+          <div class="comp"><span class="cn">ATC</span><span class="cr">確保／下降器</span></div>
+          <div class="comp"><span class="cn">高效率勾環滑輪</span><span class="cr">省力滑輪</span></div>
+          <div class="comp"><span class="cn">耐熱繩</span><span class="cr">摩擦抓結 · A bloc</span></div>
+          <div class="comp b2"><span class="cn">夾繩器</span><span class="cr">B bloc</span></div>
+          <div class="comp"><span class="cn">Sling 組合</span><span class="cr">固定點／延伸</span></div>
         </div>
       </div>
     </section>
 
     <!-- ===== 10. 拖拉模組二 RPM ===== -->
     <section data-background-image="images/bg-rope.jpg" data-background-size="cover" data-background-opacity="0.15" data-background-color="#0f141c">
-      <div class="sys-wrap">
-        <div class="sys-photos">
+      <span class="chip" style="background:var(--accent2);color:#0d1117;">拖拉系統模組 ②</span>
+      <h2 style="margin:0.1em 0 0;">RPM 運用</h2>
+      <p class="sys-sub">第二種組裝方式，核心改用 OKA 下降器與分立盤</p>
+      <div class="sys2">
+        <div class="sys2-photos">
           <img src="images/p10-rpm-1.jpeg" alt="RPM 系統照片1">
           <img src="images/p10-rpm-2.jpeg" alt="RPM 系統照片2">
         </div>
-        <div class="sys-info">
-          <span class="chip" style="background:var(--accent2);color:#0d1117;">拖拉系統模組 ②</span>
-          <h2 style="margin:0.1em 0 0.2em;">RPM 運用</h2>
-          <p class="lead" style="font-size:0.44em;color:#9fb0bd;margin:0 0 0.4em;">第二種組裝方式，核心改用 OKA 下降器與分立盤。</p>
-          <ul class="parts-list">
-            <li><b>OKA</b> 下降器（變形 8 字）</li>
-            <li><b>高效率滑輪</b>（省力）</li>
-            <li><b>耐熱繩</b>（摩擦抓結）</li>
-            <li><b>夾繩器</b>（進程抓放）</li>
-            <li><b>分立盤</b>（多向分力）</li>
-            <li><b>Sling</b> 組合（固定點／延伸）</li>
-          </ul>
+        <div class="comp-grid">
+          <div class="comp"><span class="cn">OKA 下降器</span><span class="cr">變形 8 字</span></div>
+          <div class="comp"><span class="cn">高效率滑輪</span><span class="cr">省力</span></div>
+          <div class="comp"><span class="cn">耐熱繩</span><span class="cr">摩擦抓結</span></div>
+          <div class="comp b2"><span class="cn">夾繩器</span><span class="cr">進程抓放</span></div>
+          <div class="comp"><span class="cn">分立盤</span><span class="cr">多向分力</span></div>
+          <div class="comp"><span class="cn">Sling 組合</span><span class="cr">固定點／延伸</span></div>
         </div>
       </div>
     </section>
@@ -451,17 +473,11 @@
           <button class="scn-chip" data-scn="4">雪地</button>
           <span class="gear-total">全套重量：<b id="gear-total-val">—</b> g</span>
         </div>
-        <div class="two-col" style="display:grid;grid-template-columns:2fr 0.85fr;gap:18px;align-items:start;">
-          <div class="gear-table-wrap">
-            <table class="gear">
-              <thead><tr><th>品牌 / 名稱</th><th style="width:52px;text-align:center;">數量</th><th style="width:70px;text-align:right;">重量</th></tr></thead>
-              <tbody id="gear-tbody"></tbody>
-            </table>
-          </div>
-          <div>
-            <div style="font-size:14px;color:var(--accent2);font-weight:700;margin-bottom:4px;">五情境全套重量（g，未計主繩）</div>
-            <div class="chart-box" style="height:300px;margin:0;"><canvas id="chart11"></canvas></div>
-          </div>
+        <div class="gear-table-wrap" style="max-height:500px;">
+          <table class="gear">
+            <thead><tr><th>品牌 / 名稱</th><th style="width:72px;text-align:center;">數量</th><th style="width:92px;text-align:right;">重量</th></tr></thead>
+            <tbody id="gear-tbody"></tbody>
+          </table>
         </div>
         <div class="down-hint">→ 下一頁：滑輪拖拉省力比 互動計算器</div>
       </section>
@@ -492,33 +508,32 @@
 
     <!-- ===== Lanyard 功能（獨立頁，各式擔架之前）===== -->
     <section data-background-image="images/bg-rope.jpg" data-background-size="cover" data-background-opacity="0.15" data-background-color="#0f141c">
-      <h2 style="margin-bottom:0.25em;">🪢 Lanyard 功能</h2>
-      <div class="two-col" style="display:grid;grid-template-columns:0.95fr 1.05fr;gap:26px;align-items:center;">
-        <div style="display:flex;flex-direction:column;gap:12px;">
+      <h2 style="margin-bottom:0.1em;">🪢 Lanyard 功能</h2>
+      <p class="sys-sub">一組多用、雙頭操作 —— 切換系統不必拆裝，省時又省重</p>
+      <div class="sys2">
+        <div style="display:flex;flex-direction:column;gap:10px;">
           <figure style="margin:0;text-align:center;">
-            <img src="images/p12-lanyard-2.jpg" style="width:100%;max-height:225px;object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,0.14);box-shadow:0 8px 24px rgba(0,0,0,0.5);">
-            <figcaption style="font-size:0.3em;color:#9fb0bd;margin-top:5px;">雙頭配置：一端滑輪、一端 Dyneema loop＋抓結</figcaption>
+            <img src="images/p12-lanyard-2.jpg" style="width:100%;max-height:195px;object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,0.14);box-shadow:0 8px 24px rgba(0,0,0,0.5);">
+            <figcaption style="font-size:14px;color:#9fb0bd;margin-top:4px;">雙頭：一端滑輪、一端 Dyneema loop＋抓結</figcaption>
           </figure>
           <figure style="margin:0;text-align:center;">
-            <img src="images/p12-lanyard-1.jpg" style="width:100%;max-height:200px;object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,0.14);box-shadow:0 8px 24px rgba(0,0,0,0.5);">
-            <figcaption style="font-size:0.3em;color:#9fb0bd;margin-top:5px;">工作端：滑輪＋耐熱繩摩擦抓結，可制動牽引</figcaption>
+            <img src="images/p12-lanyard-1.jpg" style="width:100%;max-height:175px;object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,0.14);box-shadow:0 8px 24px rgba(0,0,0,0.5);">
+            <figcaption style="font-size:14px;color:#9fb0bd;margin-top:4px;">工作端：滑輪＋耐熱繩抓結，可制動牽引</figcaption>
           </figure>
         </div>
         <div>
-          <div style="background:rgba(232,100,58,0.12);border:1px solid rgba(232,100,58,0.4);border-left:5px solid var(--accent);border-radius:10px;padding:12px 16px;margin-bottom:12px;">
-            <div style="font-size:0.5em;font-weight:900;color:var(--accent);margin-bottom:3px;">雙頭運用法</div>
-            <div style="font-size:0.38em;color:#e8eef4;line-height:1.6;">善用 Lanyard 功能及架設 —— <b style="color:var(--warn)">Lanyard 雙頭用、主繩雙頭用</b>：同一組從兩端都能操作，切換系統不必拆裝，省時又省重。</div>
+          <div style="background:rgba(232,100,58,0.12);border-left:5px solid var(--accent);border-radius:10px;padding:13px 18px;margin-bottom:14px;">
+            <div style="font-size:22px;font-weight:900;color:var(--accent);margin-bottom:4px;">雙頭運用法</div>
+            <div style="font-size:18px;color:#eef3f7;line-height:1.5;"><b style="color:var(--warn)">Lanyard 雙頭用、主繩雙頭用</b>：同一組從兩端都能操作。</div>
           </div>
-          <div class="section-label" style="font-size:0.48em;margin-bottom:4px;">一組多用的功能</div>
-          <ul class="parts-list" style="margin-top:0;">
-            <li><b>定位／工作確保</b>：任一端固定，快速做站位或作業確保</li>
-            <li><b>拖拉系統</b>：滑輪＋耐熱繩摩擦抓結，或用 GRIGRI，可快速變成滑輪省力系統</li>
-            <li><b>延伸／固定點</b>：做為固定點的延伸，使用後繩尾仍可繼續運用</li>
-            <li><b>短距離移動</b>：可運用在短距離的上升與下降</li>
-          </ul>
-          <div class="section-label" style="font-size:0.48em;margin:8px 0 4px;">組成（一組 ≈ 1.2 - 1.49kg）</div>
-          <div style="font-size:0.36em;color:#c7d0d8;line-height:1.7;">
-            攀樹輔助繩 Marlow 17m（高強度耐磨本體）· 側板滾珠滑輪 Tethys Pro（效率 92%）· 耐熱繩 Ropesmith · Dyneema loop 7mm · O 環 ×3
+          <div class="comp-grid">
+            <div class="comp"><span class="cn">定位／工作確保</span><span class="cr">任一端固定，快速站位或作業確保</span></div>
+            <div class="comp"><span class="cn">拖拉系統</span><span class="cr">滑輪＋抓結或 GRIGRI → 滑輪省力</span></div>
+            <div class="comp"><span class="cn">延伸／固定點</span><span class="cr">固定點延伸，繩尾仍可續用</span></div>
+            <div class="comp"><span class="cn">短距離移動</span><span class="cr">短距離上升與下降</span></div>
+          </div>
+          <div style="font-size:15px;color:#9fb0bd;line-height:1.6;margin-top:12px;border-top:1px solid rgba(255,255,255,0.1);padding-top:8px;">
+            <b style="color:var(--accent2);">組成（一組 ≈ 1.2–1.49kg）</b>：攀樹輔助繩 Marlow 17m · 側板滾珠滑輪 Tethys Pro · 耐熱繩 · Dyneema loop 7mm · O 環 ×3
           </div>
         </div>
       </div>
@@ -529,23 +544,23 @@
       <h2 style="margin-bottom:0.3em;">🛏️ 各式擔架</h2>
       <div class="two-col" style="display:grid;grid-template-columns:0.8fr 1.2fr;gap:20px;align-items:center;">
         <div>
-          <div style="background:rgba(79,195,247,0.1);border-left:4px solid var(--accent2);border-radius:8px;padding:12px 16px;margin-bottom:12px;">
-            <div style="font-size:0.46em;font-weight:900;color:var(--accent2);">1️⃣ 單繩系統</div>
-            <div style="font-size:0.38em;color:#dbe3ea;margin-top:3px;">工作距離 <b style="color:var(--warn)">200M</b>（2×50M＋1×100M），需過繩結技術。</div>
+          <div style="background:rgba(79,195,247,0.1);border-left:5px solid var(--accent2);border-radius:10px;padding:14px 18px;margin-bottom:12px;">
+            <div style="font-size:0.62em;font-weight:900;color:var(--accent2);">1️⃣ 單繩系統</div>
+            <div style="font-size:0.5em;color:#eef3f7;margin-top:5px;line-height:1.5;">工作距離 <b style="color:var(--warn)">200M</b>（2×50M＋1×100M），需過繩結技術。</div>
           </div>
-          <div style="background:rgba(129,199,132,0.1);border-left:4px solid var(--success);border-radius:8px;padding:12px 16px;margin-bottom:12px;">
-            <div style="font-size:0.46em;font-weight:900;color:var(--success);">2️⃣ 雙繩系統</div>
-            <div style="font-size:0.38em;color:#dbe3ea;margin-top:3px;">工作距離 <b style="color:var(--warn)">100M</b>（2×50M 與 1×100M），需過繩結技術。</div>
+          <div style="background:rgba(129,199,132,0.1);border-left:5px solid var(--success);border-radius:10px;padding:14px 18px;margin-bottom:12px;">
+            <div style="font-size:0.62em;font-weight:900;color:var(--success);">2️⃣ 雙繩系統</div>
+            <div style="font-size:0.5em;color:#eef3f7;margin-top:5px;line-height:1.5;">工作距離 <b style="color:var(--warn)">100M</b>（2×50M 與 1×100M），需過繩結技術。</div>
           </div>
-          <div style="background:rgba(255,183,77,0.1);border-left:4px solid var(--warn);border-radius:8px;padding:12px 16px;">
-            <div style="font-size:0.46em;font-weight:900;color:var(--warn);">3️⃣ 擔架要求</div>
-            <div style="font-size:0.38em;color:#dbe3ea;margin-top:3px;">重量輕、攜帶佳、支撐好、有腳帶、可姿態轉換。</div>
+          <div style="background:rgba(255,183,77,0.1);border-left:5px solid var(--warn);border-radius:10px;padding:14px 18px;">
+            <div style="font-size:0.62em;font-weight:900;color:var(--warn);">3️⃣ 擔架要求</div>
+            <div style="font-size:0.5em;color:#eef3f7;margin-top:5px;line-height:1.5;">重量輕、攜帶佳、支撐好、有腳帶、可姿態轉換。</div>
           </div>
         </div>
         <div style="display:flex;gap:10px;justify-content:center;align-items:flex-end;">
-          <figure style="margin:0;text-align:center;flex:1;"><img src="images/p13-stretch-4.jpeg" style="max-height:330px;max-width:100%;object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,0.14);box-shadow:0 8px 24px rgba(0,0,0,0.5);"><figcaption style="font-size:0.32em;color:#9fb0bd;margin-top:6px;">RollUP · 8.4kg</figcaption></figure>
-          <figure style="margin:0;text-align:center;flex:1;"><img src="images/p13-stretch-2.jpeg" style="max-height:330px;max-width:100%;object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,0.14);box-shadow:0 8px 24px rgba(0,0,0,0.5);"><figcaption style="font-size:0.32em;color:#9fb0bd;margin-top:6px;">SLIX · 9.5kg</figcaption></figure>
-          <figure style="margin:0;text-align:center;flex:1;"><img src="images/p13-stretch-3.jpeg" style="max-height:330px;max-width:100%;object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,0.14);box-shadow:0 8px 24px rgba(0,0,0,0.5);"><figcaption style="font-size:0.32em;color:#9fb0bd;margin-top:6px;">SKED · 8.4kg</figcaption></figure>
+          <figure style="margin:0;text-align:center;flex:1;"><img src="images/p13-stretch-4.jpeg" style="max-height:330px;max-width:100%;object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,0.14);box-shadow:0 8px 24px rgba(0,0,0,0.5);"><figcaption style="font-size:0.42em;color:#9fb0bd;margin-top:6px;">RollUP · 8.4kg</figcaption></figure>
+          <figure style="margin:0;text-align:center;flex:1;"><img src="images/p13-stretch-2.jpeg" style="max-height:330px;max-width:100%;object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,0.14);box-shadow:0 8px 24px rgba(0,0,0,0.5);"><figcaption style="font-size:0.42em;color:#9fb0bd;margin-top:6px;">SLIX · 9.5kg</figcaption></figure>
+          <figure style="margin:0;text-align:center;flex:1;"><img src="images/p13-stretch-3.jpeg" style="max-height:330px;max-width:100%;object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,0.14);box-shadow:0 8px 24px rgba(0,0,0,0.5);"><figcaption style="font-size:0.42em;color:#9fb0bd;margin-top:6px;">SKED · 8.4kg</figcaption></figure>
         </div>
       </div>
     </section>
@@ -598,7 +613,6 @@
     const id = Reveal.getCurrentSlide && Reveal.getCurrentSlide()?.id;
     if(id==='slide-wc-person') window.WC_DRAW && window.WC_DRAW.wcperson && window.WC_DRAW.wcperson();
     if(id==='slide-wc-team')   window.WC_DRAW && window.WC_DRAW.wcteam && window.WC_DRAW.wcteam();
-    if(id==='slide-gear11')    window.initChart11 && window.initChart11();
   }
   function applyResponsive(){
     const n = deckSize();
@@ -628,47 +642,48 @@
 <script>
   // 情境索引：0 溯溪/搜救-Attendant, 1 搜救-Rigger, 2 搜救-Leader, 3 溪降, 4 雪地
   const SCN_NAMES = ['溯溪/搜救-Attendant','搜救-Rigger','搜救-Leader','溪降','雪地'];
-  const SCN_TOTALS = [2434, 2574, 2601, 2538, 3231]; // g，未計公裝主繩（來源：裝備分析.xlsx）
+  const SCN_TOTALS = [2335, 2430, 2631, 2535, 3990]; // g，未計公裝主繩（來源：輕量化裝備配置.xlsx）
   // c = 各情境數量；w = 單件重量(g)
   const GEAR = [
-    {b:'PETZL',n:'SIROCCO 超輕量岩盔',w:170,c:[1,1,1,1,1],f:'避免頭部碰撞或落石'},
-    {b:'singingrock',n:'RAY 靜態繩齒輪環',w:385,c:[0,0,0,1,0],f:'4 齒輪環，承重 5kg'},
-    {b:'PETZL',n:'Open ring',w:70,c:[0,0,0,1,0],f:'開放連結環'},
-    {b:'PETZL',n:'極輕吊帶 SITTA M',w:285,c:[1,1,1,0,1],f:'4 工具環，可調腰腿圍'},
-    {b:'Kong',n:'手套 Alex 露三指',w:63,c:[0,0,0,0,0],f:'輕量透氣護手'},
-    {b:'3M',n:'手套 MS100',w:20,c:[1,1,1,1,0],f:'輕薄護手'},
-    {b:'CAMP',n:'TURBOCHEST 胸式上升器',w:110,c:[1,1,1,1,0],f:'上升器＋鎖定滑輪輕載牽引'},
-    {b:'Climbing Tech',n:'Rollnlock',w:80,c:[1,1,1,1,1],f:'上升器／制動滑輪／單滑輪（效率85%）'},
-    {b:'PETZL',n:'Micro Traxion 單向滑輪',w:85,c:[1,1,1,1,1],f:'可解除制停當一般滑輪（效率91%）'},
-    {b:'CAMP',n:'Tethys Pro 側板滾珠滑輪',w:90,c:[1,1,1,0,1],f:'搭抓結作單向滑輪（效率92%）'},
-    {b:'FLXE',n:'MIKU V2 確保器',w:82,c:[1,0,1,0,1],f:'制動確保器'},
-    {b:'PETZL',n:'GRIGRI +',w:200,c:[0,1,0,0,0],f:'取代 ATC 下降器'},
-    {b:'KONG',n:'OKA 下降器',w:95,c:[1,1,1,0,0],f:'變形 8 字下降器'},
-    {b:'Climbing Tech',n:'八字環',w:94,c:[0,0,0,2,0],f:'溪降下降'},
-    {b:'Grivel',n:'Roller Small 滑輪鉤環',w:73,c:[1,0,1,0,0],f:'滑輪鉤環'},
-    {b:'Petzl',n:'ROLLCLIP Z',w:105,c:[0,0,0,0,1],f:'滑輪鉤環（效率85%）'},
-    {b:'Black Diamond',n:'LITEWIRE 小鉤環',w:23,c:[0,0,0,4,0],f:'長軸24kN'},
-    {b:'PETZL',n:'O 型鉤環 HMS',w:70,c:[8,8,8,6,4],f:'固定點／確保／連結（主軸25kN）'},
-    {b:'PETZL',n:'ATTACHE 鉤環',w:58,c:[5,6,5,7,2],f:'固定點／義大利半扣／確保'},
-    {b:'PETZL',n:'PAW 分力盤 4 孔',w:60,c:[0,1,0,0,0],f:'分力盤（斷裂36kN）'},
-    {b:'TEBYLON',n:'HALF 輕量化撤退環',w:23,c:[1,0,1,1,0],f:'取代分力盤（26kN）'},
-    {b:'Beal',n:'Sling 120cm',w:35,c:[2,2,2,3,2],f:'固定點／延伸／胸帶（22kN）'},
-    {b:'BlueWater',n:'Sling 15cm',w:14,c:[0,0,0,2,0],f:'短延伸（27kN）'},
-    {b:'Ropesmith',n:'耐熱繩 8mm/80cm',w:50,c:[1,1,1,0,1],f:'摩擦抓結（VT 結）'},
-    {b:'康迪亞',n:'普魯士腳踏繩 6mm/2m',w:54,c:[0,0,0,0,0],f:'延伸／胸腳繩'},
-    {b:'Teufelberger',n:'Tech Cord 高強度輔助繩（腳繩）',w:28.25,c:[1,1,1,1,0],f:'取代腳繩（20kN）'},
-    {b:'Beal',n:'短繩圈 Jammy 35cm',w:20,c:[1,1,1,1,0],f:'延伸／autoblock'},
-    {b:'Beal',n:'短繩圈 Jammy 50cm',w:25,c:[0,0,0,1,0],f:'延伸／autoblock'},
-    {b:'xmonster',n:'耐熱繩 8mm/70cm',w:45,c:[1,1,1,1,0],f:'摩擦抓結／延伸'},
-    {b:'康迪亞',n:'管式扁帶 6m',w:252,c:[0,0,1,0,0],f:'固定點／簡易吊帶／腳蹬'},
-    {b:'Teufelberger',n:'Tech Cord 高強度輔助繩（扁帶）',w:84.75,c:[1,1,0,0,0],f:'取代扁帶（20kN）'},
-    {b:'EDELRID',n:'熊爪割繩刀',w:110,c:[0,0,0,1,0],f:'切割繩索織帶'},
-    {b:'PETZL',n:'摺疊割繩刀',w:43,c:[1,1,1,0,1],f:'切割繩索織帶'},
-    {b:'DIY',n:'自製動力確保長短繩',w:127.6,c:[0,0,0,1,0],f:'動力確保'},
-    {b:'metolius',n:'PAS 自我確保繩',w:130,c:[1,1,1,0,1],f:'自我確保鍊（浮水、快乾）'},
-    {b:'PETZL',n:'Connect Adjust 2',w:120,c:[0,0,0,0,0],f:'可調長度自我確保繩'},
-    {b:'GRIVEL',n:'RAMBO 4 技術冰爪',w:1170,c:[0,0,0,0,1],f:'雪地專屬技術裝備'},
-    {b:'GRIVEL',n:'G1 雪地健行冰斧',w:475,c:[0,0,0,0,1],f:'雪地專屬技術裝備'},
+    {b:'PETZL',n:'SIROCCO 超輕量岩盔/攀岩頭盔/滑雪頭盔 黑橘',w:170,c:[1, 1, 1, 1, 1],f:'避免頭部碰撞或落石接觸'},
+    {b:'singingrock',n:'RAY',w:385,c:[0, 0, 0, 1, 0],f:''},
+    {b:'PETZL',n:'Open ring',w:70,c:[0, 0, 0, 1, 0],f:''},
+    {b:'PETZL',n:'極輕吊帶 SITTA M號',w:285,c:[1, 1, 1, 0, 1],f:'4個工具環，可調整腰腿圍'},
+    {b:'Kong',n:'Kong 手套 Alex Gloves 露三指(雙)',w:63,c:[0, 0, 0, 0, 0],f:'輕量、透氣保護雙手'},
+    {b:'3M MS100',n:'手套(雙)',w:20,c:[1, 1, 1, 1, 1],f:''},
+    {b:'CAMP',n:'TURBOCHEST 胸式上升器',w:110,c:[1, 1, 1, 1, 1],f:'胸式上升器，亦可作為鎖定滑輪用於輕載牽引。'},
+    {b:'Climbing Technology',n:'Rollnlock',w:80,c:[1, 1, 1, 1, 1],f:'可做上升器/制動滑輪/單滑輪。'},
+    {b:'PETZL',n:'Micro Traxion 單向滑輪',w:85,c:[1, 1, 1, 1, 1],f:'可解除制停裝置，作為一般滑輪使用。'},
+    {b:'CAMP',n:'Tethys Pro 側板滾珠滑輪',w:90,c:[1, 1, 1, 0, 1],f:'可入雙勾環，阻擋入繩的普魯士滑輪，搭配抓結可作單向滑輪'},
+    {b:'FLXE',n:'MIKU V2確保器',w:82,c:[1, 1, 0, 0, 1],f:''},
+    {b:'PETZL',n:'GRIGRI + (取代atc 下降器)',w:200,c:[0, 0, 1, 0, 0],f:''},
+    {b:'KONG',n:'OKA 下降器',w:95,c:[1, 1, 1, 0, 1],f:'變形8下降器。'},
+    {b:'Climbing Technology',n:'八字環',w:94,c:[0, 0, 0, 2, 0],f:''},
+    {b:'Grivel',n:'Grivel Roller Small',w:73,c:[0, 0, 0, 0, 0],f:'滑輪鉤環'},
+    {b:'Petzl',n:'ROLLCLIP Z SCREW-LOCK',w:105,c:[1, 1, 0, 0, 1],f:'滑輪鉤環'},
+    {b:'Black Diamond',n:'LITEWIRE',w:23,c:[0, 0, 0, 4, 0],f:''},
+    {b:'PETZL',n:'O型',w:70,c:[8, 8, 8, 6, 8],f:'可做固定點、金屬裝備連結、確保，建議購買HMS認證的'},
+    {b:'PETZL',n:'ATTACHE',w:58,c:[4, 4, 5, 7, 4],f:'可做固定點、義大利半扣、確保'},
+    {b:'PETZL',n:'PAW 分力盤4孔 RIGGING PLATE S',w:60,c:[1, 1, 0, 0, 1],f:'分力盤'},
+    {b:'TEBYLON',n:'HALF輕量化撤退環 (取代分力盤)',w:23,c:[0, 0, 1, 1, 0],f:''},
+    {b:'Beal',n:'Sling',w:35,c:[2, 2, 2, 3, 2],f:'固定點或其它延伸用途，包括胸帶'},
+    {b:'BlueWater',n:'Sling',w:14,c:[0, 0, 0, 2, 0],f:''},
+    {b:'Ropesmith',n:'耐熱繩80CM',w:50,c:[2, 2, 2, 1, 2],f:'樹攀或其它需要摩擦抓結時使用'},
+    {b:'康迪亞',n:'普魯士輔助繩_腳踏繩',w:54,c:[0, 0, 0, 0, 0],f:'可供延伸輔助、胸/腳繩使用'},
+    {b:'Teufelberger',n:'New England Ropes Tech Cord 高強度輔助繩(取代腳繩)',w:11.3,c:[1, 1, 1, 1, 1],f:''},
+    {b:'Beal',n:'短繩圈Jammy',w:20,c:[0, 0, 0, 1, 0],f:'可供延伸、autoblock使用'},
+    {b:'Beal',n:'短繩圈Jammy',w:25,c:[0, 0, 0, 1, 0],f:'可供延伸、autoblock使用'},
+    {b:'xmonster',n:'耐熱繩70CM',w:45,c:[0, 0, 0, 0, 0],f:'樹攀或其它需要摩擦抓結時使用，可供延伸、autoblock使用'},
+    {b:'康迪亞',n:'管式扁帶',w:252,c:[0, 0, 1, 0, 0],f:'可做固定點、簡易吊帶、腳蹬'},
+    {b:'Teufelberger',n:'New England Ropes Tech Cord 高強度輔助繩(取代扁帶)',w:11.3,c:[0, 1, 0, 0, 0],f:''},
+    {b:'EDELRID',n:'熊爪割繩刀',w:110,c:[0, 0, 0, 1, 0],f:'切割繩索或織帶'},
+    {b:'PETZL',n:'摺疊割繩刀',w:43,c:[1, 1, 1, 0, 1],f:'切割繩索或織帶'},
+    {b:'DIY',n:'自製動力確保長短繩',w:58,c:[0, 0, 0, 0, 0],f:''},
+    {b:'metolius',n:'PAS自我確保繩',w:130,c:[0, 1, 1, 0, 1],f:'自我確保鍊，重量輕、浮於水、強度高、快乾。'},
+    {b:'metolius',n:'PAS自我確保繩(動力繩)',w:120,c:[1, 0, 0, 0, 0],f:'自我確保鍊，可吸收墜落衝擊、強度高。'},
+    {b:'PETZL',n:'Petzl Connect Adjust 2  120g',w:120,c:[0, 0, 0, 1, 0],f:'可調整長度自我確保繩、個人受力後可釋放'},
+    {b:'GRIVEL',n:'GRIVEL RAMBO 4 Cramp-O-Matic 技術攀登冰爪 11+1爪',w:1170,c:[0, 0, 0, 0, 1],f:'Grivel 最具技術性的冰攀冰爪，第 4 代專利結構'},
+    {b:'GRIVEL',n:'GRIVEL G1 雪地健行冰斧 (含防凍橡膠握把)',w:475,c:[0, 0, 0, 0, 1],f:'適合雪地健行、冰川健行、基礎登山攀登使用。'},
   ];
 
   let curScn = -1;
@@ -718,23 +733,6 @@
      <td><b style="color:#fff">${g.n}</b></td><td class="w">${g.w}</td><td class="gear-func">${g.f}</td></tr>`
   ).join('');
 
-  // ---- Chart.js ----
-  let c11=false;
-  function initChart11(){
-    if(c11||typeof Chart==='undefined')return; const el=document.getElementById('chart11'); if(!el)return; c11=true;
-    new Chart(el,{type:'bar',data:{labels:SCN_NAMES,datasets:[{label:'全套重量 (g)',data:SCN_TOTALS,
-      backgroundColor:['#4fc3f7','#81c784','#ce93d8','#80deea','#ffb74d'],borderRadius:8}]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
-        tooltip:{callbacks:{label:c=>c.parsed.y+' g ( '+(c.parsed.y/1000).toFixed(2)+' kg )'}}},
-        scales:{y:{ticks:{color:'#9fb0bd'},grid:{color:'rgba(255,255,255,0.08)'}},x:{ticks:{color:'#dbe3ea',font:{size:11}},grid:{display:false}}}}});
-  }
-  Reveal.on('slidechanged', e=>{
-    if(e.currentSlide?.id==='slide-gear11') setTimeout(initChart11,150);
-  });
-  // 若一載入就停在該頁
-  Reveal.on('ready', e=>{
-    if(e.currentSlide?.id==='slide-gear11') setTimeout(initChart11,200);
-  });
 </script>
 
 <!-- ===== Firebase 即時互動（單一 module，共用 fdb / SLUG）===== -->
