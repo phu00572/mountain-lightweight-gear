@@ -89,9 +89,9 @@
     .sys-photos img { max-height:430px; max-width:47%; object-fit:contain; border-radius:12px;
       border:1px solid rgba(255,255,255,0.14); box-shadow:0 10px 30px rgba(0,0,0,0.5); }
     .sys-info { max-width:520px; }
-    .sys-info .chip {
+    .chip {
       display:inline-block; background:var(--accent); color:#fff; font-weight:900;
-      font-size:0.5em; padding:5px 16px; border-radius:20px; margin-bottom:0.4em;
+      font-size:0.5em; padding:6px 18px; border-radius:20px; margin-bottom:0.3em;
     }
     .parts-list { list-style:none; padding:0; margin:0.4em 0 0; }
     .parts-list li {
@@ -112,9 +112,10 @@
 
     /* === 系統模組頁（重新編排：大圖＋元件卡）=== */
     .sys-sub { font-size:20px; color:#9fb0bd; margin:2px 0 14px; }
-    .sys2 { display:grid; grid-template-columns:0.85fr 1.15fr; gap:26px; align-items:center; }
-    .sys2-photos { display:flex; gap:12px; justify-content:center; }
-    .sys2-photos img { max-height:440px; max-width:48%; object-fit:contain; border-radius:12px;
+    .sys2 { display:grid; grid-template-columns:0.82fr 1.18fr; gap:26px; align-items:center; }
+    .sys2 > * { min-width:0; }   /* 允許欄位縮小，避免圖片把欄位撐開蓋到文字 */
+    .sys2-photos { display:flex; gap:12px; justify-content:center; min-width:0; }
+    .reveal .sys2-photos img { max-height:420px; max-width:48%; min-width:0; width:auto; object-fit:contain; border-radius:12px;
       border:1px solid rgba(255,255,255,0.14); box-shadow:0 10px 30px rgba(0,0,0,0.5); }
     .comp-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
     .comp { background:rgba(255,255,255,0.06); border-left:4px solid var(--accent2); border-radius:10px; padding:12px 16px; }
@@ -411,7 +412,7 @@
         <div class="prin2"><div class="pn">2</div><div class="pt">一物多用</div><div class="pd">一件裝備兼多種用途，減少件數與重量。</div></div>
         <div class="prin2"><div class="pn">3</div><div class="pt">同功能選最輕</div><div class="pd">功能相同時，挑重量最輕的那一個。</div></div>
       </div>
-      <div class="section-label" style="margin:0.5em 0 0.1em;font-size:0.6em;">個人輕量化裝備的三個核心觀念</div>
+      <h2 style="margin:0.4em 0 0.1em;">🎯 個人輕量化裝備的三個核心觀念</h2>
       <div class="prin-row">
         <div class="prin2 core"><div class="pn">A</div><div class="pt">個人上升下降 ＝ 拖拉系統</div><div class="pd">同一套技術，個人上拉下放就是團隊拖拉的縮小版（學新也復舊）。</div></div>
         <div class="prin2 core"><div class="pn">B</div><div class="pt">個人裝備即是公裝</div><div class="pd">一套模組化輕量裝備，既當個人裝備、也能湊成團體公裝。</div></div>
