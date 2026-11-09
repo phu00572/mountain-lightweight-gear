@@ -38,7 +38,7 @@
       letter-spacing:0.12em; margin-bottom:0.7em; font-weight:700;
     }
     .title-slide h1 { text-shadow:0 3px 24px rgba(0,0,0,0.7); }
-    .title-slide .subtitle { font-size:0.74em; color:#eef3f7; margin-top:0.7em; font-weight:500; text-shadow:0 2px 12px rgba(0,0,0,0.85); }
+    .title-slide .subtitle { font-size:32px; color:#eef3f7; margin-top:0.7em; font-weight:500; text-shadow:0 2px 12px rgba(0,0,0,0.85); }
     .title-slide .author { margin-top:1.4em; font-size:0.38em; color:#c7d0d8; text-shadow:0 2px 10px rgba(0,0,0,0.8); }
 
     /* === 全圖插圖頁的覆蓋教學卡 === */
@@ -46,10 +46,10 @@
       position:absolute; left:3%; right:3%; bottom:3.5%;
       background:rgba(10,15,25,0.82); backdrop-filter:blur(4px);
       border:1px solid rgba(79,195,247,0.35); border-left:5px solid var(--accent);
-      border-radius:12px; padding:14px 20px; box-shadow:0 8px 30px rgba(0,0,0,0.5);
+      border-radius:14px; padding:22px 30px; box-shadow:0 8px 30px rgba(0,0,0,0.5);
     }
-    .illus-overlay .io-title { font-size:0.62em; font-weight:900; color:var(--accent2); margin-bottom:6px; }
-    .illus-overlay .io-text  { font-size:0.46em; color:#eef3f7; line-height:1.65; }
+    .illus-overlay .io-title { font-size:42px; font-weight:900; color:var(--accent2); margin-bottom:10px; line-height:1.2; }
+    .illus-overlay .io-text  { font-size:34px; color:#eef3f7; line-height:1.55; }
     .illus-overlay .io-text b { color:var(--warn); }
     /* 說明卡＝fade-up fragment：一開始不顯示，按「下一頁」由下往上滑入（同頁、不換頁），第二次才換頁 */
     .corner-badge {
@@ -109,35 +109,39 @@
     .lead b { color:var(--warn); }
 
     /* === 互動元件通用 === */
-    .ui-input { width:100%; padding:10px 14px; border-radius:10px; border:1px solid rgba(79,195,247,0.35);
-      background:rgba(255,255,255,0.08); color:#fff; font-size:15px; box-sizing:border-box; font-family:inherit; outline:none; }
-    .ui-btn { padding:10px 16px; background:var(--accent2); color:#0d1117; border:none; border-radius:10px;
-      font-weight:900; font-size:15px; cursor:pointer; font-family:inherit; }
+    .ui-input { width:100%; padding:13px 16px; border-radius:10px; border:1px solid rgba(79,195,247,0.35);
+      background:rgba(255,255,255,0.08); color:#fff; font-size:19px; box-sizing:border-box; font-family:inherit; outline:none; }
+    .ui-btn { padding:13px 20px; background:var(--accent2); color:#0d1117; border:none; border-radius:10px;
+      font-weight:900; font-size:19px; cursor:pointer; font-family:inherit; }
     .ui-btn:disabled { opacity:0.5; cursor:default; }
     .qhead { font-size:1.05em; font-weight:900; margin-bottom:0.3em; color:#fff; }
     .live-badge { display:inline-block; background:#ff4757; color:#fff; padding:2px 9px; border-radius:12px;
       font-size:0.42em; vertical-align:middle; animation:pulse 1.5s infinite; margin-left:8px; }
     @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
 
-    /* 投票（可自訂活動）*/
-    .ap-preset { display:inline-block; margin:5px 6px 0 0; padding:9px 16px; font-size:15px; font-family:inherit;
-      background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.18); border-radius:22px;
-      color:#eaeef2; cursor:pointer; transition:all .15s; }
-    .ap-preset:hover { border-color:var(--accent2); }
-    .ap-preset.mine { background:var(--accent2); color:#0d1117; border-color:var(--accent2); font-weight:900; }
-    .ap-bar-row { display:flex; align-items:center; gap:12px; margin:7px 0; font-size:15px; }
-    .ap-bar-row .lab { flex:0 0 150px; text-align:right; color:#dbe3ea; }
-    .ap-bar-row .lab.mine { color:var(--accent2); font-weight:900; }
-    .ap-bar-track { flex:1; height:20px; background:rgba(255,255,255,0.08); border-radius:10px; overflow:hidden; }
-    .ap-bar-fill { height:100%; width:0; background:linear-gradient(90deg,var(--accent2),#2b8fc7); border-radius:10px; transition:width .5s; }
-    .ap-bar-row.mine .ap-bar-fill { background:linear-gradient(90deg,var(--accent),#c04a26); }
-    .ap-bar-row .pct { flex:0 0 78px; color:#9fb0bd; font-size:0.9em; }
+    /* 破冰投票（固定點架設簡報樣式：字母選項＋內嵌長條）*/
+    .poll-q { font-size:40px; font-weight:900; line-height:1.3; margin:0 0 4px; color:#fff; }
+    .poll-opts { display:flex; flex-direction:column; gap:5px; margin-top:8px; }
+    .popt { display:grid; grid-template-columns:40px 1fr 210px 64px; align-items:center; gap:14px;
+      padding:6px 18px; cursor:pointer; transition:all .2s; font-family:inherit; color:#eaeef2;
+      text-align:left; width:100%; background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.14); border-radius:12px; }
+    .popt:hover { border-color:rgba(255,255,255,0.4); }
+    .popt .k { width:34px; height:34px; border-radius:50%; border:2px solid rgba(255,255,255,0.3);
+      font:800 18px/30px 'Noto Sans TC',sans-serif; text-align:center; color:#9fb0bd; flex:0 0 auto; }
+    .popt .lb { font-size:26px; font-weight:700; }
+    .popt .bar { height:12px; border-radius:6px; background:rgba(255,255,255,0.1); overflow:hidden; }
+    .popt .bar i { display:block; height:100%; width:0; background:var(--accent2); border-radius:6px; transition:width .5s; }
+    .popt .pc { font:800 20px 'Noto Sans TC',sans-serif; text-align:right; color:#cdd6de; }
+    .popt.mine { border-color:var(--accent2); background:rgba(79,195,247,0.12); }
+    .popt.mine .k { background:var(--accent2); border-color:var(--accent2); color:#0d1117; }
+    .poll-meta { margin-top:14px; font-size:18px; color:#9fb0bd; }
 
     /* 文字雲 */
     .wc-grid { display:grid; grid-template-columns:260px 1fr; gap:16px; height:520px; }
     .wc-panel { background:rgba(255,255,255,0.06); border-radius:12px; padding:16px; display:flex; flex-direction:column; }
     .wc-canvas-wrap { background:rgba(255,255,255,0.03); border-radius:14px; overflow:hidden; position:relative; border:1px solid rgba(255,255,255,0.08); }
-    .wc-list-item { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.06); font-size:15px; color:#cdd6de; }
+    .wc-list-item { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.06); font-size:18px; color:#cdd6de; }
     .wc-list-item b { color:var(--accent); }
 
     /* 圖表 */
@@ -151,13 +155,13 @@
     .gear-total { margin-left:auto; font-size:16px; color:#dbe3ea; }
     .gear-total b { color:var(--warn); font-size:1.5em; font-weight:900; }
     .gear-table-wrap { max-height:300px; overflow-y:auto; border-radius:10px; border:1px solid rgba(255,255,255,0.1); }
-    table.gear { width:100%; border-collapse:collapse; font-size:13.5px; }
+    table.gear { width:100%; border-collapse:collapse; font-size:16.5px; }
     table.gear th { position:sticky; top:0; background:#182234; color:var(--accent2); padding:8px 10px; text-align:left; font-weight:700; z-index:1; }
     table.gear td { padding:7px 10px; border-top:1px solid rgba(255,255,255,0.07); color:#dbe3ea; vertical-align:top; }
     table.gear tr:hover td { background:rgba(79,195,247,0.06); }
     table.gear td.w { color:var(--warn); font-weight:700; white-space:nowrap; text-align:right; }
     table.gear td.qty { color:#9fb0bd; text-align:center; }
-    .gear-func { font-size:0.86em; color:#94a5b3; }
+    .gear-func { font-size:0.8em; color:#94a5b3; }
     .pill { display:inline-block; font-size:11px; padding:1px 7px; border-radius:10px; background:rgba(129,199,132,0.16);
       color:var(--success); border:1px solid rgba(129,199,132,0.3); margin-left:6px; }
 
@@ -221,8 +225,10 @@
     body.mobile .gear-tools{ gap:6px; }
     body.mobile .scn-chip{ flex:1 1 40%; text-align:center; }
     /* 投票長條標籤在窄版縮短 */
-    body.mobile .ap-bar-row .lab{ flex-basis:92px; }
-    body.mobile .ap-bar-row .pct{ flex-basis:62px; }
+    body.mobile .popt{ grid-template-columns:30px 1fr 54px; gap:8px 10px; padding:11px 14px; }
+    body.mobile .popt .bar{ grid-column:2/4; grid-row:2; }
+    body.mobile .popt .pc{ grid-column:3; grid-row:1; }
+    body.mobile .popt .lb{ font-size:19px; } body.mobile .poll-q{ font-size:26px; }
     /* 文字雲輸入框字級≥16px 防 iOS 縮放 */
     body.mobile .ui-input{ font-size:16px; }
 
@@ -257,15 +263,15 @@
       </section>
       <!-- 破冰投票 -->
       <section data-background-image="images/bg-interact.jpg" data-background-size="cover" data-background-opacity="0.2" data-background-color="#0d1117" id="slide-actpoll">
-        <div class="qhead">🏕️ 破冰：你最常從事哪一種戶外活動？<span class="live-badge">LIVE</span></div>
-        <p style="font-size:0.44em;color:#9fb0bd;margin:0 0 0.5em;">點選你最常從事的活動（<b style="color:var(--warn)">一人一票，可改選</b>）；找不到的用最後欄位自訂。結果即時更新。</p>
-        <div id="ap-presets" style="margin-bottom:12px;"></div>
-        <div style="display:flex; gap:10px; max-width:520px;">
+        <p class="poll-q">🏕️ 你最常從事哪一種戶外活動？<span class="live-badge">LIVE</span></p>
+        <p style="font-size:19px;color:#9fb0bd;margin:0 0 2px;">點選你最常從事的活動（<b style="color:var(--warn)">一人一票、可改選</b>）；或在最後欄位自訂新增。</p>
+        <div class="poll-opts" id="ap-presets"></div>
+        <div class="poll-opts" id="ap-custom-rows" style="margin-top:10px;"></div>
+        <div style="display:flex; gap:10px; max-width:560px; margin-top:12px;">
           <input id="ap-custom" class="ui-input" type="text" placeholder="其他：自訂你的活動…" maxlength="16" />
           <button id="ap-custom-btn" class="ui-btn" style="flex:0 0 auto;">送出 ↵</button>
         </div>
-        <div id="ap-results" style="margin-top:16px; max-height:230px; overflow-y:auto;"></div>
-        <div style="font-size:0.38em;color:#7f8f9c;margin-top:8px;">投票人數：<span id="ap-total" style="color:var(--accent);font-weight:900;">0</span> 人（一人一票）<span id="ap-votes" style="display:none;">0</span>　·　百分比 ＝ 各活動票數 ÷ 總票數</div>
+        <div class="poll-meta">投票人數：<span id="ap-total" style="color:var(--accent);font-weight:900;">0</span> 人（一人一票）<span id="ap-votes" style="display:none;">0</span>　·　百分比 ＝ 各票數 ÷ 總票數</div>
     </section>
 
     <!-- ===== 3. 技術型活動 ===== -->
@@ -299,12 +305,12 @@
         <div class="wc-grid">
           <div style="display:flex;flex-direction:column;gap:12px;">
             <div class="wc-panel" style="flex:0 0 auto;">
-              <div style="font-size:14px;color:var(--accent2);font-weight:700;margin-bottom:8px;">輸入你的答案（例：2.5kg）</div>
+              <div style="font-size:18px;color:var(--accent2);font-weight:700;margin-bottom:8px;">輸入你的答案（例：2.5kg）</div>
               <input id="wcp-input" class="ui-input" type="text" placeholder="輸入重量或想法…" maxlength="14" />
               <button id="wcp-btn" class="ui-btn" style="width:100%;margin-top:8px;">送出 ↵</button>
             </div>
             <div class="wc-panel" style="flex:1;overflow:hidden;">
-              <div style="font-size:14px;color:var(--accent2);font-weight:700;margin-bottom:8px;">熱門答案</div>
+              <div style="font-size:18px;color:var(--accent2);font-weight:700;margin-bottom:8px;">熱門答案</div>
               <div id="wcp-list" style="overflow-y:auto;flex:1;"></div>
               <div style="margin-top:8px;font-size:12px;color:#7f8f9c;border-top:1px solid rgba(255,255,255,0.08);padding-top:6px;">
                 總提交 <b style="color:var(--accent)" id="wcp-total">0</b>　不同答案 <b style="color:var(--accent2)" id="wcp-unique">0</b></div>
@@ -346,12 +352,12 @@
         <div class="wc-grid">
           <div style="display:flex;flex-direction:column;gap:12px;">
             <div class="wc-panel" style="flex:0 0 auto;">
-              <div style="font-size:14px;color:var(--accent2);font-weight:700;margin-bottom:8px;">輸入你的答案（例：15kg）</div>
+              <div style="font-size:18px;color:var(--accent2);font-weight:700;margin-bottom:8px;">輸入你的答案（例：15kg）</div>
               <input id="wct-input" class="ui-input" type="text" placeholder="輸入重量或想法…" maxlength="14" />
               <button id="wct-btn" class="ui-btn" style="width:100%;margin-top:8px;">送出 ↵</button>
             </div>
             <div class="wc-panel" style="flex:1;overflow:hidden;">
-              <div style="font-size:14px;color:var(--accent2);font-weight:700;margin-bottom:8px;">熱門答案</div>
+              <div style="font-size:18px;color:var(--accent2);font-weight:700;margin-bottom:8px;">熱門答案</div>
               <div id="wct-list" style="overflow-y:auto;flex:1;"></div>
               <div style="margin-top:8px;font-size:12px;color:#7f8f9c;border-top:1px solid rgba(255,255,255,0.08);padding-top:6px;">
                 總提交 <b style="color:var(--accent)" id="wct-total">0</b>　不同答案 <b style="color:var(--accent2)" id="wct-unique">0</b></div>
@@ -445,7 +451,7 @@
           <button class="scn-chip" data-scn="4">雪地</button>
           <span class="gear-total">全套重量：<b id="gear-total-val">—</b> g</span>
         </div>
-        <div class="two-col" style="display:grid;grid-template-columns:1.35fr 1fr;gap:18px;align-items:start;">
+        <div class="two-col" style="display:grid;grid-template-columns:2fr 0.85fr;gap:18px;align-items:start;">
           <div class="gear-table-wrap">
             <table class="gear">
               <thead><tr><th>品牌 / 名稱</th><th style="width:52px;text-align:center;">數量</th><th style="width:70px;text-align:right;">重量</th></tr></thead>
@@ -757,14 +763,17 @@
   const userId = 'u_' + Math.random().toString(36).slice(2,9);
   function escapeHtml(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
-  /* ---------- 破冰投票（單選，一人一票；可改選、可自訂）---------- */
+  /* ---------- 破冰投票（固定點架設簡報樣式：字母選項＋內嵌長條；單選、一人一票）---------- */
   const AP_PRESETS = ['玩水型溯溪','登山健行','越野跑','溪降','攀岩/抱石','繩索技術 SRT','露營','雪地攀登','山域搜救'];
+  const AP_LETTERS = 'ABCDEFGHIJKLMNOP';
   const apRef = doc(fdb, SLUG + '_actpoll', 'results');
   let apMine = null;                        // 本人這一票（單選）
   const apBox = document.getElementById('ap-presets');
-  AP_PRESETS.forEach(label=>{
-    const b=document.createElement('button'); b.className='ap-preset'; b.textContent=label;
-    b.dataset.val=label; b.onclick=()=>apVote(label); apBox.appendChild(b);
+  const apCustomRows = document.getElementById('ap-custom-rows');
+  AP_PRESETS.forEach((label,i)=>{
+    const b=document.createElement('button'); b.className='popt'; b.dataset.val=label;
+    b.innerHTML=`<span class="k">${AP_LETTERS[i]||'•'}</span><span class="lb">${escapeHtml(label)}</span><span class="bar"><i></i></span><span class="pc">0%</span>`;
+    b.onclick=()=>apVote(label); apBox.appendChild(b);
   });
   async function apVote(val){
     val=(val||'').trim(); if(!val) return; apMine=val;     // 改選＝直接覆蓋自己這一票
@@ -779,17 +788,20 @@
     const votes=(snap.data()||{}).votes||{};
     const counts={}; let total=0;
     Object.values(votes).forEach(v=>{ if(typeof v==='string' && v){ counts[v]=(counts[v]||0)+1; total++; } });  // 單選：一人一字串
-    const entries=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
     document.getElementById('ap-total').textContent=total;
-    const apVotesEl=document.getElementById('ap-votes'); if(apVotesEl) apVotesEl.textContent=total;
-    document.querySelectorAll('.ap-preset').forEach(b=>b.classList.toggle('mine', b.dataset.val===apMine));
-    const res=document.getElementById('ap-results');
-    res.innerHTML = entries.length ? entries.map(([lab,c])=>{
-      const pct= total? Math.round(c/total*100):0; const mine= lab===apMine;
-      return `<div class="ap-bar-row ${mine?'mine':''}"><span class="lab ${mine?'mine':''}">${escapeHtml(lab)}</span>
-        <span class="ap-bar-track"><span class="ap-bar-fill" style="width:${pct}%"></span></span>
-        <span class="pct">${c} 票 · ${pct}%</span></div>`;
-    }).join('') : '<div style="color:#66757f;font-size:14px;padding:8px 0;">還沒有人投票，當第一個吧！</div>';
+    // 預設選項列：更新長條與百分比、標記自己這票
+    apBox.querySelectorAll('.popt').forEach(o=>{
+      const val=o.dataset.val, c=counts[val]||0, pct= total? Math.round(c/total*100):0;
+      o.querySelector('.bar i').style.width=pct+'%';
+      o.querySelector('.pc').textContent=pct+'%';
+      o.classList.toggle('mine', val===apMine);
+    });
+    // 自訂選項列（非預設的值，依票數排序，動態顯示）
+    const customVals=Object.keys(counts).filter(v=>!AP_PRESETS.includes(v)).sort((a,b)=>counts[b]-counts[a]);
+    apCustomRows.innerHTML=customVals.map(v=>{
+      const c=counts[v], pct= total? Math.round(c/total*100):0; const mine= v===apMine;
+      return `<div class="popt ${mine?'mine':''}" style="cursor:default;"><span class="k">✎</span><span class="lb">${escapeHtml(v)}</span><span class="bar"><i style="width:${pct}%"></i></span><span class="pc">${pct}%</span></div>`;
+    }).join('');
   });
 
   /* ---------- 文字雲工廠（兩個獨立文字雲）---------- */
