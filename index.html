@@ -324,19 +324,19 @@
 
     <!-- ===== 5. 你覺得裝備要幾公斤？ ===== -->
     <section data-background-image="images/p5-person-gear.jpg" data-background-size="contain" data-background-color="#0d1117">
-        <div class="illus-overlay fragment fade-up p6card" data-fragment-index="0" style="left:2%;right:auto;bottom:4%;width:44%;">
+        <div class="illus-overlay fragment fade-up p6card" data-fragment-index="0" style="left:3%;right:3%;top:3%;bottom:auto;border-left:5px solid var(--accent2);">
+          <div class="io-title" style="color:var(--warn);margin-bottom:8px;">🎒 個人裝備器材的一物多用</div>
+          <div class="io-text" style="line-height:1.4;">
+            <div style="margin:5px 0;"><b style="color:var(--accent2)">120cm sling（繩圈）</b>：腳帶繩、胸繩、架設固定點、LRH 等</div>
+            <div style="margin:5px 0;"><b style="color:var(--accent2)">Turbochest 胸式上升器</b>：上升器、上方確保器、夾繩器、A-block 等</div>
+            <div style="margin:5px 0;"><b style="color:var(--accent2)">Rollnlock 手持上升器</b>：上升器、85% 滑輪、單向滑輪、可夾扁帶或兩條 8mm 以下的繩子</div>
+            <div style="margin:5px 0;"><b style="color:var(--accent2)">OKA 下降器</b>：垂降時調整摩擦力、改變受力方向；個人與團體拖拉系統操作一致</div>
+            <div style="margin:5px 0;"><b style="color:var(--accent2)">2.5M 高強度輔助繩</b>：腳帶繩、架設固定點、提拉繩、繩圈</div>
+          </div>
+        </div>
+        <div class="illus-overlay fragment fade-up p6card" data-fragment-index="0" style="left:3%;right:3%;top:auto;bottom:3%;">
           <div class="io-title">這一整套個人技術裝備 —— 你願意背幾公斤？</div>
           <div class="io-text">先憑直覺猜一個數字。<b>→ 下一頁用文字雲寫下你願意背的重量</b>，再看實測答案。</div>
-        </div>
-        <div class="illus-overlay fragment fade-up p6card" data-fragment-index="0" style="left:auto;right:2%;top:4.5%;bottom:auto;width:51%;border-left:5px solid var(--accent2);">
-          <div class="io-title" style="color:var(--warn);margin-bottom:8px;">🎒 個人裝備器材的一物多用</div>
-          <div class="io-text" style="font-size:23px;line-height:1.45;">
-            <div style="margin:6px 0;"><b style="color:var(--accent2)">120cm sling（繩圈）</b>：腳帶繩、胸繩、架設固定點、LRH 等</div>
-            <div style="margin:6px 0;"><b style="color:var(--accent2)">Turbochest 胸式上升器</b>：上升器、上方確保器、夾繩器、A-block 等</div>
-            <div style="margin:6px 0;"><b style="color:var(--accent2)">Rollnlock 手持上升器</b>：上升器、85% 滑輪、單向滑輪、可夾扁帶或兩條 8mm 以下的繩子</div>
-            <div style="margin:6px 0;"><b style="color:var(--accent2)">OKA 下降器</b>：垂降時調整摩擦力、改變受力方向；個人與團體拖拉系統操作一致</div>
-            <div style="margin:6px 0;"><b style="color:var(--accent2)">2.5M 高強度輔助繩</b>：腳帶繩、架設固定點、提拉繩、繩圈</div>
-          </div>
         </div>
       </section>
       <!-- 文字雲：個人 -->
@@ -367,6 +367,7 @@
         <div style="text-align:center;">
           <div class="qhead" style="font-size:1.4em;">✅ 揭曉</div>
           <p class="lead" style="font-size:0.84em;margin-top:0.5em;line-height:1.7;">一套個人模組，<b style="color:var(--accent2)">有效率地實施上升下降</b><br>其實只有 <span style="color:var(--accent);font-weight:900;font-size:1.7em;">1.1 ~ 1.2</span> 公斤</p>
+          <button class="ui-btn" style="margin-top:1em;padding:15px 30px;font-size:23px;display:inline-flex;align-items:center;gap:8px;" onclick="window.openVideo('pggHbR8W8Kg')">▶ 觀看示範：上升轉 OKA／義大利半扣下降</button>
         </div>
     </section>
 
@@ -612,6 +613,14 @@
   </div>
 </aside>
 
+<!-- ===== 影片燈箱（YouTube 內嵌）===== -->
+<div id="video-lightbox" style="position:fixed;inset:0;z-index:1500;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center;padding:4vh 4vw;">
+  <div style="position:relative;width:100%;max-width:1120px;aspect-ratio:16/9;">
+    <iframe id="video-frame" style="width:100%;height:100%;border:0;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,0.6);" src="" title="示範影片" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>
+  </div>
+  <button onclick="window.closeVideo()" aria-label="關閉影片" style="position:fixed;top:18px;right:22px;background:rgba(255,255,255,0.16);color:#fff;border:none;border-radius:50%;width:50px;height:50px;font-size:24px;cursor:pointer;line-height:1;">✕</button>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
 <script>
   // === 響應式：手機直式＝標準翻頁＋頁內捲動、窄版單欄；手機橫式/平板/桌機＝寬版多欄 ===
@@ -651,6 +660,20 @@
   let _rzT; window.addEventListener('resize', ()=>{ clearTimeout(_rzT); _rzT=setTimeout(applyResponsive,180); });
   window.addEventListener('orientationchange', ()=>setTimeout(applyResponsive,250));
   Reveal.on('slidechanged', e=>{ if(e.currentSlide) e.currentSlide.scrollTop=0; });   // 換頁後回到頁頂
+
+  // === 影片燈箱（YouTube）===
+  window.openVideo=function(id){
+    const lb=document.getElementById('video-lightbox');
+    document.getElementById('video-frame').src='https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0&modestbranding=1';
+    lb.style.display='flex';
+  };
+  window.closeVideo=function(){
+    const lb=document.getElementById('video-lightbox');
+    lb.style.display='none';
+    document.getElementById('video-frame').src='about:blank';   // 停止播放
+  };
+  document.getElementById('video-lightbox')?.addEventListener('click',e=>{ if(e.target.id==='video-lightbox') window.closeVideo(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') window.closeVideo(); });
 </script>
 
 <!-- ===== 裝備資料 + 互動表格 + Chart.js（一般 script）===== -->
