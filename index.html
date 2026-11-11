@@ -125,7 +125,7 @@
     body.mobile .prin-row, body.mobile .sys2, body.mobile .comp-grid { grid-template-columns:1fr !important; }
     body.mobile .sys2-photos img { max-height:230px; }
     /* 第6頁兩張卡片：手機改為靜態堆疊、全寬 */
-    body.mobile .p6center { position:static !important; display:block !important; }
+    body.mobile .p6stack { position:static !important; top:auto !important; left:auto !important; right:auto !important; display:block !important; }
     body.mobile .p6card .io-title { font-size:20px !important; }
     body.mobile .p6card .io-text { font-size:16px !important; }
     body.mobile .p6card .io-text > div { font-size:16px !important; }
@@ -325,8 +325,7 @@
 
     <!-- ===== 5. 你覺得裝備要幾公斤？ ===== -->
     <section data-background-image="images/p5-person-gear.jpg" data-background-size="contain" data-background-color="#0d1117">
-        <div class="p6center" style="position:absolute;left:3%;right:3%;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;">
-          <div class="p6stack fragment fade-up" data-fragment-index="0" style="display:flex;flex-direction:column;gap:12px;">
+        <div class="p6stack fragment fade-up" data-fragment-index="0" style="position:absolute;left:3%;right:3%;top:38px;bottom:auto;display:flex;flex-direction:column;gap:11px;">
             <div class="illus-overlay p6card" style="position:static;left:auto;right:auto;top:auto;bottom:auto;margin:0;border-left:5px solid var(--accent2);">
               <div class="io-title" style="color:var(--warn);margin-bottom:8px;">🎒 個人裝備器材的一物多用</div>
               <div class="io-text" style="line-height:1.4;">
@@ -341,7 +340,6 @@
               <div class="io-title">這一整套個人技術裝備 —— 你願意背幾公斤？</div>
               <div class="io-text">先憑直覺猜一個數字。<b>→ 下一頁用文字雲寫下你願意背的重量</b>，再看實測答案。</div>
             </div>
-          </div>
         </div>
       </section>
       <!-- 文字雲：個人 -->
